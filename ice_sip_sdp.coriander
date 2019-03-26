@@ -261,7 +261,7 @@ NOTE: Since it is possible that no candidates were provided in the offer,
 or that all candidates in the offer where skipped due to unsupported address
 type or FQDN name resolution failure, ICE nomination process can start with
 no remote candidates. This, however, does not indicate an immediate ICE
-nomination failure. See <<draft-ietf-mmusic-ice-sip-sdp>> for more details.
+nomination failure. See <<draft-holmberg-ice-pac>> for more details.
 
 If the offer does not indicate support of ICE, the answerer 
 MUST NOT accept the usage of ICE. If the answerer still accepts the offer, 
@@ -283,7 +283,7 @@ NOTE: Since it is possible that no candidates were provided in the answer,
 or that all candidates in the answer where skipped due to unsupported address
 type or FQDN name resolution failure, ICE nomination process can start with
 no remote candidates. This, however, does not indicate an immediate ICE
-nomination failure. See <<draft-ietf-mmusic-ice-sip-sdp>> for more details.
+nomination failure. See <<draft-holmberg-ice-pac>> for more details.
 
 If the answer does not indicate that the answerer supports ICE, or if the 
 offerer detects an ICE mismatch in the answer, the offerer MUST terminate 
@@ -633,7 +633,7 @@ candidate-attribute   = "candidate" ":" foundation SP component-id SP
 
 foundation            = 1*32ice-char
 component-id          = 1*5DIGIT
-transport             = "UDP" / "TCP" / transport-extension
+transport             = "UDP" / transport-extension
 transport-extension   = token              ; from RFC 3261
 priority              = 1*10DIGIT
 cand-type             = "typ" SP candidate-types
@@ -651,12 +651,6 @@ related transport address:
 
 [horizontal]
 <connection-address>: :: is taken from RFC 4566 <<RFC4566>>.
-It is the IP address of the candidate. When parsing this field, an agent can differentiate 
-an IPv4 address and an IPv6 address by presence of a colon in its value -- the presence of 
-a colon indicates IPv6. An agent MUST ignore candidate lines that include candidates with 
-IP address versions that are not supported or recognized.
-
-<connection-address>: :: is taken from RFC 4566 <<RFC4566>>.
 It is the IP address of the candidate, allowing for IPv4 addresses, IPv6 addresses, and fully
 qualified domain names (FQDNs).  When parsing this field, an agent can differentiate 
 an IPv4 address and an IPv6 address by presence of a colon in its value - the presence of a
@@ -664,22 +658,21 @@ colon indicates IPv6.  An agent MUST ignore candidate lines that include candida
 IP address versions that are not supported or recognized.  An IP address SHOULD be used,
 but an FQDN MAY be used in place of an IP address.  In that case, when receiving an
 offer or answer containing an FQDN in an a=candidate attribute, the FQDN is looked up in
-the DNS first using both AAAA record (assuming the agent supports IPv6), and using an A
+the DNS using both AAAA record (assuming the agent supports IPv6), and using an A
 record (assuming the agent supports IPv4). If, and only if, the DNS query returns 
 only one IP address it is then used for the remainder of ICE processing. If DNS query
 returned more then one result, including situation where single IPv4 and single IPv6
-results are returned, an agent MUST ingore the candidate. Handling of multiple DNS
-results for a candidate can be defined in the future specification. If candidaite
+results are returned, an agent MUST ignore the candidate. Handling of multiple DNS
+results for a candidate can be defined in the future specification. If candidate
 with FQDN <connection-address> is the default destination/candidate, the the "c="
-address type MUST be set the IP address family for the FQDN DNS resultion result 
+address type MUST be set the IP address family for the FQDN DNS resolution result 
 and the "c=" connection address MUST be set to FQDN.
-
 
 <port>: :: is also taken from RFC 4566 <<RFC4566>>.
 It is the port of the candidate.
 
 <transport>: :: indicates the transport protocol for the candidate.
-This specification only defines UDP and TCP. However, extensibility is provided to allow for 
+This specification only defines UDP. However, extensibility is provided to allow for 
 future transport protocols to be used with ICE by extending the sub-registry 
 "ICE Transport Protocols" under "Interactive Connectivity Establishment (ICE)" registry.
 
