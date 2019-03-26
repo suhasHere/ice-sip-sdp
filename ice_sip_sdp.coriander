@@ -40,9 +40,9 @@ Default Destination/Candidate: ::
 The default destination for a component of a data stream is the transport 
 address that would be used by an agent that is not ICE aware. A default 
 candidate for a component is one whose transport address matches the default 
-destination for that component. For the RTP component, the default IP address 
-is in the "c=" line of the SDP, and the port is in the "m=" line. For the 
-RTCP component, the address and port are indicated using the "a=rtcp" 
+destination for that component. For the RTP component, the default connection address
+is in the "c=" line of the SDP, and the port and transport protocol are in the "m=" line.
+For the RTCP component, the address and port are indicated using the "a=rtcp" 
 attribute defined in <<RFC3605>>, if present; otherwise, the RTCP component 
 address is same as the address of the RTP component, and its port is one 
 greater than the port of the RTP component.
@@ -80,12 +80,12 @@ With in a "m=" section, each candidate (including the default candidate) associa
 with the data stream is represented by an SDP candidate attribute.
 
 Prior to nomination, the "c=" line associated with an "m=" section contains 
-the IP address of the default candidate, while the "m=" line contains the port 
-and transport of the default candidate for that "m=" section.
+the connection address of the default candidate, while the "m=" line contains the port 
+and transport protocol of the default candidate for that "m=" section.
 
-After nomination, the "c=" line for a given "m=" section contains the IP address
+After nomination, the "c=" line for a given "m=" section contains the address
 of the nominated candidate (the local candidate of the nominated candidate pair) 
-and the "m=" line contains the port and transport corresponding to the 
+and the "m=" line contains the port and transport protocol corresponding to the 
 nominated candidate for that "m=" section.
 
 ===== Username and Password
@@ -124,14 +124,12 @@ SDP extension specifying otherwise is used.
 
 ==== RTP/RTCP Considerations
 
-If an agent utilizes both RTP and RTCP, the agent MUST include SDP candidate
-attributes for both the RTP and RTCP components in the "m=" section.
-
-If an agent uses separate ports for RTP and RTCP, the agent MUST include an 
-SDP rtcp attribute in the "m=" section, as described in <<RFC3605>>. In the cases 
-where the port number for the RTCP is one higher than the RTP port and RTCP 
-component address is same as the address of the RTP component, the SDP rtcp 
-attribute MAY be omitted.
+If an agent utilizes both RTP and RTCP, and separate ports are used for RTP and
+RTCP, the agent MUST include SDP candidate attributes for both the RTP and RTCP
+components and SDP rtcp attribute SHOULD be included in the "m=" section, as 
+described in <<RFC3605>>. In the cases  where the port number for the RTCP is
+one higher than the RTP port and RTCP component address is same as the address
+of the RTP component, the SDP rtcp attribute MAY be omitted.
 
 If the agent does not utilize RTCP, it indicates that by including b=RS:0 
 and b=RR:0 SDP attributes, as described in <<RFC3556>>.
@@ -155,10 +153,10 @@ check Binding requests on those candidates.
 The agents will proceed with the ICE procedures defined in <<RFC8445>> and 
 this specification if, for each data stream in the SDP it received, the 
 default destination for each component of that data stream appears in
-a candidate attribute. For example, in the case of RTP, the IP address
-and port in the "c=" and "m=" lines, respectively, appear in a candidate
-attribute and the value in the rtcp attribute appears in a candidate
-attribute.
+a candidate attribute. For example, in the case of RTP, the connection address,
+port, and transport protocol in the "c=" and "m=" lines, respectively, appear
+in a candidate attribute and the value in the rtcp attribute appears in a
+candidate attribute.
 
 If this condition is not met, the agents MUST process the SDP based on 
 normal <<RFC3264>> procedures, without using any of the ICE mechanisms 
@@ -181,9 +179,12 @@ correspond to IP address values "0.0.0.0"/"::" and port value of "9".
 This MUST not be considered as a ICE failure by the peer agent and 
 the ICE processing MUST continue as usual.
 
-Also to note, this specification provides no guidance on how an 
-controlling/initiator agent should proceed in scenarios where the 
-the SDP answer includes "a=ice-mismatch" from the peer.
+In some cases, controlling/initiator agent may receive the SDP answer
+that may omit "a=candidate" attributes for the media streams, and instead 
+include a session level "a=ice-mismatch" attribute.  This signals to the
+offerer that the answerer supports ICE, but that ICE processing was not
+used for this session. This specification provides no guidance on how an
+agent should proceed in such a failure case.
 
 
 ==== SDP Example
@@ -226,6 +227,11 @@ might not, be the initial SDP offer of the SDP session.
 NOTE: The procedures in this document only consider "m=" sections associated 
 with data streams where ICE is used.
 
+NOTE: It is valid for an offer "m=" line to include no SDP candidate attributes
+and default destination correspond to IP address values "0.0.0.0"/"::" and port
+value of "9". This implies that offering agent is only going to use peer reflexive 
+candidates or that additional candidates would be provided in subsequent signaling
+messages.
 
 ==== Sending the Initial Answer
 
@@ -236,8 +242,26 @@ attributes for each available candidate associated with the "m=" section.
 In addition, the answerer MUST include an SDP ice-ufrag and an SDP ice-pwd 
 attribute in the answer.
 
+NOTE: In each "m=" line, the answerer MUST use the same transport protocol
+as was used in the offer "m=" line. If none of the candidates in the "m=" 
+line in the answer use the same transport protocol as indicated in the 
+offer "m=" line, then, in order to avoid ICE mismatch, default destination
+should be set to IP address values "0.0.0.0"/"::" and port value of "9".
+
+NOTE: It is valid for an answer "m=" line to include no SDP candidate attributes
+and default destination correspond to IP address values "0.0.0.0"/"::" and port
+value of "9". This implies that answering agent is only going to use peer reflexive 
+candidates or that additional candidates would be provided in subsequent signaling
+messages.
+
 Once the answerer has sent the answer, it can start performing connectivity 
 checks towards the peer candidates that were provided in the offer.
+
+NOTE: Since it is possible that no candidates were provided in the offer, 
+or that all candidates in the offer where skipped due to unsupported address
+type or FQDN name resolution failure, ICE nomination process can start with
+no remote candidates. This, however, does not indicate an immediate ICE
+nomination failure. See <<draft-ietf-mmusic-ice-sip-sdp>> for more details.
 
 If the offer does not indicate support of ICE, the answerer 
 MUST NOT accept the usage of ICE. If the answerer still accepts the offer, 
@@ -255,6 +279,12 @@ When an offerer receives an initial answer that indicates that the answerer
 supports ICE, it can start performing connectivity checks towards the peer 
 candidates that were provided in the answer.
 
+NOTE: Since it is possible that no candidates were provided in the answer, 
+or that all candidates in the answer where skipped due to unsupported address
+type or FQDN name resolution failure, ICE nomination process can start with
+no remote candidates. This, however, does not indicate an immediate ICE
+nomination failure. See <<draft-ietf-mmusic-ice-sip-sdp>> for more details.
+
 If the answer does not indicate that the answerer supports ICE, or if the 
 offerer detects an ICE mismatch in the answer, the offerer MUST terminate 
 the usage of ICE. The subsequent actions taken by the offerer are 
@@ -269,8 +299,8 @@ checks for each data stream whether the nominated pair matches the default
 candidate pair. If there are one or more data streams with a match, and 
 the peer did not indicate support for the 'ice2' ice-option,
 the controlling agent MUST generate a subsequent offer 
-(<<sec-send-subsequent-offer>>), in which the IP address, port and 
-transport in the "c=" and "m=" lines associated 
+(<<sec-send-subsequent-offer>>), in which the connection address, port and 
+transport protocol in the "c=" and "m=" lines associated 
 with each data stream match the corresponding local information of the 
 nominated pair for that data stream.
 
@@ -304,10 +334,10 @@ subsequent offer had never been made.
 
 An agent MAY restart ICE processing for an existing data stream <<RFC8445>>.
 
-The rules governing the ICE restart imply that setting the IP address in the 
-"c=" line to 0.0.0.0 (for IPv4)/ :: (for IPv6) will cause an ICE restart.
+The rules governing the ICE restart imply that setting the connection address in the 
+"c=" line to "IN IP4 0.0.0.0"/"IN IP6 ::" will cause an ICE restart.
 Consequently, ICE implementations MUST NOT utilize this mechanism for call hold, 
-and instead MUST use a=inactive and a=sendonly as described in <<RFC3264>>.
+and instead MUST use "a=inactive" and "a=sendonly" as described in <<RFC3264>>.
 
 To restart ICE, an agent MUST change both the ice-pwd and the ice-ufrag for 
 the data stream in an offer. However, it is permissible to use a session-level 
@@ -354,12 +384,12 @@ this default destination.
 
 ====== After Nomination
 
-Once a candidate pair has been nominated for a data stream, the IP address, 
-port and transport in each "c=" and "m=" line associated with that data 
-stream MUST match the data associated with the nominated pair for that 
-data stream. In addition, the offerer only includes SDP candidates 
-representing the local candidates of the nominated candidate pair. The 
-offerer MUST NOT include any other SDP candidate attributes in the 
+Once a candidate pair has been nominated for a data stream, the connection
+address, port and transport protocol in each "c=" and "m=" line associated
+with that data  stream MUST match the data associated with the nominated
+pair for that  data stream. In addition, the offerer only includes SDP
+candidates representing the local candidates of the nominated candidate pair.
+The offerer MUST NOT include any other SDP candidate attributes in the 
 subsequent offer.
 
 In addition, if the agent is controlling, it MUST include the 
@@ -535,7 +565,7 @@ offer performs on of the following actions:
 	- If ICE state is running for a given data stream, the agent 
 	recomputes the check list. If a pair on the new check list was 
 	also on the previous check list, and its state is not Frozen, 
-  its state is copied over. Otherwise, its state 
+    its state is copied over. Otherwise, its state 
 	is set to Frozen. If none of the check lists are active (meaning 
 	that the pairs in each check list are Frozen), appropriate 
 	procedures in <<RFC8445>> are performed to move candidate(s) 
@@ -603,7 +633,7 @@ candidate-attribute   = "candidate" ":" foundation SP component-id SP
 
 foundation            = 1*32ice-char
 component-id          = 1*5DIGIT
-transport             = "UDP" / transport-extension
+transport             = "UDP" / "TCP" / transport-extension
 transport-extension   = token              ; from RFC 3261
 priority              = 1*10DIGIT
 cand-type             = "typ" SP candidate-types
@@ -626,11 +656,30 @@ an IPv4 address and an IPv6 address by presence of a colon in its value -- the p
 a colon indicates IPv6. An agent MUST ignore candidate lines that include candidates with 
 IP address versions that are not supported or recognized.
 
+<connection-address>: :: is taken from RFC 4566 <<RFC4566>>.
+It is the IP address of the candidate, allowing for IPv4 addresses, IPv6 addresses, and fully
+qualified domain names (FQDNs).  When parsing this field, an agent can differentiate 
+an IPv4 address and an IPv6 address by presence of a colon in its value - the presence of a
+colon indicates IPv6.  An agent MUST ignore candidate lines that include candidates with
+IP address versions that are not supported or recognized.  An IP address SHOULD be used,
+but an FQDN MAY be used in place of an IP address.  In that case, when receiving an
+offer or answer containing an FQDN in an a=candidate attribute, the FQDN is looked up in
+the DNS first using both AAAA record (assuming the agent supports IPv6), and using an A
+record (assuming the agent supports IPv4). If, and only if, the DNS query returns 
+only one IP address it is then used for the remainder of ICE processing. If DNS query
+returned more then one result, including situation where single IPv4 and single IPv6
+results are returned, an agent MUST ingore the candidate. Handling of multiple DNS
+results for a candidate can be defined in the future specification. If candidaite
+with FQDN <connection-address> is the default destination/candidate, the the "c="
+address type MUST be set the IP address family for the FQDN DNS resultion result 
+and the "c=" connection address MUST be set to FQDN.
+
+
 <port>: :: is also taken from RFC 4566 <<RFC4566>>.
 It is the port of the candidate.
 
 <transport>: :: indicates the transport protocol for the candidate.
-This specification only defines UDP. However, extensibility is provided to allow for 
+This specification only defines UDP and TCP. However, extensibility is provided to allow for 
 future transport protocols to be used with ICE by extending the sub-registry 
 "ICE Transport Protocols" under "Interactive Connectivity Establishment (ICE)" registry.
 
@@ -997,7 +1046,13 @@ Furthermore, that list of candidates SHOULD include the ones currently being use
 
 == Relationship with ANAT
 
-<<RFC4091>>, the Alternative Network Address Types (ANAT) Semantics for the SDP grouping framework, and <<RFC4092>>, its usage with SIP, define a mechanism for indicating that an agent can support both IPv4 and IPv6 for a data stream, and it does so by including two "m=" lines, one for v4 and one for v6.  This is similar to ICE, which allows for an agent to indicate multiple transport addresses using the candidate attribute.  However, ANAT relies on static selection to pick between choices, rather than a dynamic connectivity check used by ICE.
+<<RFC4091>>, the Alternative Network Address Types (ANAT) Semantics for the SDP grouping
+framework, and <<RFC4092>>, its usage with SIP, define a mechanism for indicating that
+an agent can support both IPv4 and IPv6 for a data stream, and it does so by including
+two "m=" lines, one for v4 and one for v6.  This is similar to ICE, which allows for an
+agent to indicate multiple transport addresses using the candidate attribute.  However,
+ANAT relies on static selection to pick between choices, rather than a dynamic connectivity
+check used by ICE.
 
 It is RECOMMENDED that ICE be used in realizing the dual-stack use-cases in agents that support ICE.
 
@@ -1013,7 +1068,9 @@ As such, the usage of TLS with ICE is RECOMMENDED.
 
 === Insider Attacks
 
-In addition to attacks where the attacker is a third party trying to insert fake offers, answers, or STUN messages, there are several attacks possible with ICE when the attacker is an authenticated and valid participant in the ICE exchange.
+In addition to attacks where the attacker is a third party trying to insert
+fake offers, answers, or STUN messages, there are several attacks possible
+with ICE when the attacker is an authenticated and valid participant in the ICE exchange.
 
 [[sec-voice-hammer]]
 ==== The Voice Hammer Attack
@@ -1129,7 +1186,7 @@ Mux Category: :: NORMAL
 
 [horizontal]
 Attribute Name: :: ice-mismatch
-Type of Attribute: :: media-level
+Type of Attribute: :: session-level
 Subject to charset: :: No
 Purpose: :: This attribute is used with Interactive Connectivity Establishment (ICE), and indicates that an agent is ICE capable, but did not proceed with ICE due to a mismatch of candidates with the default destination for media signaled in the SDP.
 Appropriate Values: :: See <<sec-grammar>> of RFC XXXX.
