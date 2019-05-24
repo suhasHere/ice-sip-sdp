@@ -184,6 +184,11 @@ correspond to IP address values "0.0.0.0"/"::" and port value of "9".
 This MUST not be considered as a ICE failure by the peer agent and 
 the ICE processing MUST continue as usual.
 
+. The transport address from the peer for the default destination is 
+an FQDN.  Regardless of the procedures used to resolve FQDN or the 
+resolution result, this MUST not be considered as a ICE failure by 
+the peer agent and the ICE processing MUST continue as usual.
+
 In some cases, controlling/initiator agent may receive the SDP answer
 that may omit "a=candidate" attributes for the data stream, and instead 
 include a media level "a=ice-mismatch" attribute.  This signals to the
@@ -677,23 +682,16 @@ port and transport protocol, and its properties: the foundation, component ID, p
 type, and related transport address:
 
 [horizontal]
-<connection-address>: ::  is taken from RFC 4566 [RFC4566].
-It is the IP address of the candidate. When parsing this field, an agent
-can differentiate an IPv4 address and an IPv6 address by presence
-of a colon in its value -- the presence of a colon indicates IPv6.
-An agent MUST ignore candidate lines that include candidates with
-IP address versions that are not supported or recognized. An IP
-address SHOULD be used, but an FQDN MAY be used in place of an IP
-address. In that case, when receiving an offer or answer
-containing an FQDN in an a=candidate attribute, the FQDN is looked
-up in the DNS first using an AAAA record (assuming the agent
-supports IPv6), and if no result is found or the agent only
-supports IPv4, using an A record. If a FQDN returns multiple 
-IP addresses an agent MUST only use one of them throughout the 
-duration of the ICE session. Since an agent does not know 
-whether the peer listens to the chosen IP address and 
-port, it is RECOMMENDED to not use FQDNs that will resolve 
-into multiple IP addresses.
+<connection-address>: :: is taken from RFC 4566 <<RFC4566>>.
+It is the IP address of the candidate, allowing for IPv4 addresses, IPv6
+addresses, and fully qualified domain names (FQDNs).  When parsing this field,
+an agent can differentiate  an IPv4 address and an IPv6 address by presence
+of a colon in its value - the presence of a colon indicates IPv6.  An agent
+generating local candidates MUST not use FQDN addresses. An agent processing remote
+candidates MUST ignore candidate lines that include candidates with FQDN or IP address
+versions that are not supported or recognized.  The procedures for generation and handling
+FQDN candidates, as well as, how agents indicate support of such procedures, need to
+be specified in an extension specification.
 
 <port>: :: is also taken from RFC 4566 <<RFC4566>>.
 It is the port of the candidate.
