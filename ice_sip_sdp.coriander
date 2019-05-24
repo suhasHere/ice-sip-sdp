@@ -163,10 +163,10 @@ connection address, port and transport protocol are in the
 attribute and the value in the rtcp attribute appears in a candidate
 attribute.
 
-If this condition is not met, the agents MUST process the SDP based on 
-normal <<RFC3264>> procedures, without using any of the ICE mechanisms 
-described in the remainder of this specification with the few 
-exceptions noted below:
+If this condition is not met, the agents MUST process the SDP for the
+data stream based on normal <<RFC3264>> procedures, without using any 
+of the ICE mechanisms described in the remainder of this specification 
+with the few exceptions noted below:
 
 . The presence of certain application layer gateways MAY modify 
 the transport address information as described in <<sec-alg-sip>>.
@@ -185,12 +185,11 @@ This MUST not be considered as a ICE failure by the peer agent and
 the ICE processing MUST continue as usual.
 
 In some cases, controlling/initiator agent may receive the SDP answer
-that may omit "a=candidate" attributes for the media streams, and instead 
-include a session level "a=ice-mismatch" attribute.  This signals to the
+that may omit "a=candidate" attributes for the data stream, and instead 
+include a media level "a=ice-mismatch" attribute.  This signals to the
 offerer that the answerer supports ICE, but that ICE processing was not
-used for this session. This specification provides no guidance on how an
-agent should proceed in such a failure case.
-
+used for this data stream. In this case, ICE processing MUST be terminated 
+for this data stream and <<RFC3264>> procedures MUST be followed instead.
 
 ==== SDP Example
 
@@ -301,12 +300,13 @@ MUST wait for the peer reflexive candidates to arrive to
 carryout the connectivity checks or eventually time out on the 
 connectivity checks (see <<draft-holmberg-ice-pac>>).
 
-
 If the answer does not indicate that the answerer supports ICE, or if the 
-offerer detects an ICE mismatch in the answer, the offerer MUST terminate 
-the usage of ICE. The subsequent actions taken by the offerer are 
-implementation dependent and are out of the scope of this specification.
+offerer detects an ICE mismatch in the answer for a given data stream, 
+the offerer MUST terminate the usage of ICE for that data stream and 
+<<RFC3264>> procedures MUST be followed instead.
 
+NOTE: If ICE mismatch is detected for all the data streams in the answer, 
+then ICE processing MUST be terminated for the entire session.
 
 ==== Concluding ICE
 
@@ -430,7 +430,7 @@ A lite implementation MUST NOT add additional host candidates in a
 subsequent offer.  If an agent needs to offer additional candidates, 
 it MUST restart ICE. Similarly, the username fragments or passwords 
 MUST remain the same as used previously.  If an agent needs to change 
-one of these, it MUST restart ICE for that media stream.
+one of these, it MUST restart ICE for that data stream.
 
 If ICE has completed for a data stream and if the agent is controlled, 
 the default destination for that data stream MUST be set to the 
@@ -782,9 +782,10 @@ ice-mismatch           = "ice-mismatch"
 ....
 
 "ice-lite" is a session-level attribute only, and indicates that an agent is a 
-lite implementation. "ice-mismatch" is a media-level attribute only, and when present 
-in an answer, indicates that the offer arrived with a default destination for a media 
-component that didn't have a corresponding candidate attribute.
+lite implementation. "ice-mismatch" is a media-level attribute and only 
+reported in the answer. It indicates that the offer arrived with a default 
+destination for a media component that didn't have a corresponding candidate 
+attribute.
 
 === "ice-ufrag" and "ice-pwd" Attributes
 
