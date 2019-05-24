@@ -301,12 +301,22 @@ carryout the connectivity checks or eventually time out on the
 connectivity checks (see <<draft-holmberg-ice-pac>>).
 
 If the answer does not indicate that the answerer supports ICE, or if the 
-offerer detects an ICE mismatch in the answer for a given data stream, 
-the offerer MUST terminate the usage of ICE for that data stream and 
+answerer included "a=mismatch" attributes for all the active data streams in
+the answer, the offerer MUST terminate the usage of ICE for the entire session
 <<RFC3264>> procedures MUST be followed instead.
 
-NOTE: If ICE mismatch is detected for all the data streams in the answer, 
-then ICE processing MUST be terminated for the entire session.
+If the answer indicates that the answerer supports ICE and if the
+answerer included "a=mismatch" SDP attribute only in some of the active data
+streams in the answer, the offerer MUST terminate the usage of ICE only for these
+specific data streams and use <<RFC3264>> procedures only for these specific
+streams. ICE procedures MUST be used for the data streams where "a=mismatch"
+attribute was not included.
+
+If the offerer detects an ICE mismatch for one or more data streams in the
+answer, as described in (<<sec-ice-mismatch>>), the offerer MUST terminate
+the usage of ICE for the entire session. The subsequent actions taken by the
+offerer are implementation dependent and are out of the scope of this
+specification.
 
 ==== Concluding ICE
 
