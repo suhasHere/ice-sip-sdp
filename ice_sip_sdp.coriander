@@ -267,14 +267,11 @@ Once the answerer has sent the answer, it can start performing
 connectivity checks towards the peer candidates that were provided 
 in the offer. 
 
-In certain scenarios when either no candidates were 
-provided in the offer or all the provided candidates were 
-discarded (say, due to unsupported address type or FQDN name 
-resolution failure), the answerer MUST NOT consider this 
-as immediate ICE processing failure but instead 
-MUST wait for the peer reflexive candidates to arrive 
-to carryout the connectivity checks or eventually time out 
-on the connectivity checks (see <<draft-holmberg-ice-pac>>).
+<draft-holmberg-ice-pac>> provides guidance on finding working 
+candidate pairs and thus preventing premature 
+declaration of ICE failure is certain scenarios such as, 
+if the peer has not provided any candidates, or if all provided 
+candidates have failed or have been discarded.
 
 If the offer does not indicate support of ICE, the answerer 
 MUST NOT accept the usage of ICE. If the answerer still accepts 
@@ -292,15 +289,11 @@ When an offerer receives an initial answer that indicates that the answerer
 supports ICE, it can start performing connectivity checks towards the peer 
 candidates that were provided in the answer.
 
-In certain scenarios when either no candidates were 
-provided in the answer or all the provided candidates were 
-discarded (say, due to unsupported address type or FQDN name 
-resolution failure), the offerer MUST NOT consider this as 
-immediate ICE processing failure but instead 
-MUST wait for the peer reflexive candidates to arrive to 
-carryout the connectivity checks or eventually time out on the 
-connectivity checks (see <<draft-holmberg-ice-pac>>).
-
+<draft-holmberg-ice-pac>> provides guidance on finding working 
+candidate pairs and thus preventing premature 
+declaration of ICE failure is certain scenarios such as, 
+if the peer has not provided any candidates, or if all provided 
+candidates have failed or have been discarded.
 
 If the answer does not indicate that the answerer supports ICE, or if the 
 offerer detects an ICE mismatch in the answer, the offerer MUST terminate 
