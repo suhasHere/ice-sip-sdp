@@ -1,0 +1,52 @@
+<author>
+	<personname>
+		<firstname>Marc</firstname>
+		<surname>Petit-Huguenin</surname>
+	</personname>
+
+	<affiliation>
+		<orgname>Impedance Mismatch</orgname>
+	</affiliation>
+
+	<email>marc@petit-huguenin.org</email>
+</author>
+<author>
+	<personname>
+		<firstname>Suhas</firstname>
+		<surname>Nandakumar</surname>
+	</personname>
+
+	<affiliation>
+		<orgname>Cisco Systems</orgname>
+
+		<address>
+			<street>707 Tasman Dr</street>
+			<city>Milpitas</city>
+			<state>CA</state>
+			<postcode>95035</postcode>
+			<country>USA</country>
+		</address>
+	</affiliation>
+
+	<email>snandaku@cisco.com</email>
+</author>
+<author>
+	<personname>
+		<firstname>Ari</firstname>
+		<surname>Keranen</surname>
+	</personname>
+
+	<affiliation>
+		<orgname>Ericsson</orgname>
+
+		<address>
+			<street></street>
+			<city>Jorvas</city>
+			<postcode>02420</postcode>
+			<country>Finland</country>
+		</address>
+	</affiliation>
+
+	<email>ari.keranen@ericsson.com</email>
+</author>
+
