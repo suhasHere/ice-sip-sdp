@@ -148,7 +148,7 @@ extensions.
             <t>
 An agent compliant to this specification MUST include an SDP ice-options
 attribute with an "ice2" attribute value <xref target="RFC8445"/>. If an agent receives an SDP offer
-or answer that do not contain an SDP ice-options attribute with an "ice2" attribute value,
+or answer that does not contain an SDP ice-options attribute with an "ice2" attribute value,
 the agent can assume that the peer is compliant to <xref target="RFC5245"/>.
 </t>
           </section>
