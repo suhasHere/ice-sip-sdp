@@ -147,9 +147,9 @@ extensions.
 </t>
             <t>
 An agent compliant to this specification MUST include an SDP ice-options
-attribute with an "ice2" attribute value. If an agent receives an SDP offer
-or answer with ICE attributes but without the "ice2" ice-options attribute value,
-the agent assumes that the peer is compliant to <xref target="RFC5245"/>.
+attribute with an "ice2" attribute value <xref target="RFC8445"/>. If an agent receives an SDP offer
+or answer that do not contain an SDP ice-options attribute with an "ice2" attribute value,
+the agent can assume that the peer is compliant to <xref target="RFC5245"/>.
 </t>
           </section>
           <section title="Inactive and Disabled Data Streams">
@@ -289,7 +289,11 @@ a=candidate:2 1 UDP 1694498815 192.0.2.3 45664 typ srflx raddr
 When an offerer generates the initial offer, in each "m=" section it MUST
 include SDP candidate attributes for each available candidate associated
 with the "m=" section. In addition, the offerer MUST include an SDP ice-ufrag
-and an SDP ice-pwd attribute in the offer.
+attribute, an SDP ice-pwd attribute and an SDP ice-options attribute with
+an "ice2" attribute value the offer. If the offerer is a full ICE implementation,
+it SHOULD include an ice-pacing attribute in the offer (if not included, the
+default value will apply). A lite ICE implementation MUST NOT included the ice-pacing
+attribute in the offer (as it will not perform connectivity checks).
 </t>
           <t>
 It is valid for an offer "m=" line to include no SDP candidate attributes
@@ -324,7 +328,13 @@ the offer and the usage of ICE, in each "m=" section within
 the answer, it MUST include SDP candidate attributes for
 each available candidate associated with the "m=" section.
 In addition, the answerer MUST include an SDP ice-ufrag
-and an SDP ice-pwd attribute in the answer.
+attribute, an SDP ice-pwd attribute and an SDP ice-options
+attribute with an "ice2" attribute value in the answer. If the
+answerer is a full ICE implementation, it SHOULD include an
+ice-pacing attribute in the answerer (if not included, the
+default value will apply). A lite ICE implementation MUST NOT
+included the ice-pacing attribute in the answer (as it will
+not perform connectivity chekcks).
 </t>
           <t>
 In each "m=" line, the answerer MUST use the same transport
@@ -473,7 +483,10 @@ An agent sets the rest of the ICE-related fields in the SDP for this data stream
 would in an initial offer of this data stream (see <xref target="sec-encoding"/>).
 Consequently, the set of candidates MAY include some, none, or all of the
 previous candidates for that data stream and MAY include a totally new set of
-candidates.
+candidates. The agent MAY modify the attribute values of the SDP ice-options and
+SDP ice-pacing attributes, and it MAY change its role using the SDP ice-lite attribute.
+The agent MUST NOT modify the SDP ice-options, ice-pacing and ice-lite attributes in a
+subsequent offer unless the offer is sent in order to request an ICE restart.
 </t>
             </section>
             <section title="Removing a Data Stream">
@@ -650,6 +663,14 @@ candidates that were used in the previous ICE session, but
 it MUST change the SDP ice-pwd and ice-ufrag attribute
 values.
 </t>
+<t>
+The answerer MAY modify the attribute values of the SDP ice-options and
+SDP ice-pacing attributes, and it MAY change its role using the SDP ice-lite attribute.
+The answerer MUST NOT modify the SDP ice-options, ice-pacing and ice-lite attributes in a
+subsequent answer unless the answer is sent for an offer that was used to request an ICE restart
+<xref target="sec-suboffer-restarts"/>. If any of the SDP attributes have been modified in
+a subsequent offer that is not used to request an ICE restart, the answerer MUST reject the
+offer.
           </section>
           <section title="Lite Implementation specific procedures">
             <t>
