@@ -423,8 +423,8 @@ MUST generate a subsequent offer, in which the connection address, port and tran
 in the "c=" and "m=" lines associated with each data stream match the corresponding
 local information of the nominated pair for that data stream (<xref target="sec-send-subsequent-offer-after-nom"/>). 
 If the peer did indicate support for the 'ice2' ice-option, the controlling agent does not
-immediately need to generate an updated offer in order to to align a connection address, port
-and protocol with a nomiated pair. However, later in the session, whenever the contorlling agent
+immediately need to generate an updated offer in order to align a connection address, port
+and protocol with a nominated pair. However, later in the session, whenever the controlling agent
 does sent a subsequent offer, it MUST do the alignment as described above.
         </t>
         <t>
