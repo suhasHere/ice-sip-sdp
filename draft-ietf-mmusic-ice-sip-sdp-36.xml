@@ -35,6 +35,33 @@
         <email>ari.keranen@ericsson.com</email>
       </address>
     </author>
+    <author fullname="Christer Holmberg" initials="C.H." surname="Holmberg">
+      <organization abbrev="Ericsson">Ericsson</organization>
+      <address>
+        <postal>
+          <street>Hirsalantie 11</street>
+          <city>Jorvas</city>
+          <region/>
+          <code>02420</code>
+          <country>Finland</country>
+        </postal>
+        <email>christer.holmberg@ericsson.com</email>
+      </address>
+    </author>
+    <author fullname="Roman Shpount" initials="R.S." surname="Shpount">
+      <organization abbrev="TurboBridge">TurboBridge</organization>
+      <address>
+        <postal>
+          <street>4905 Del Ray Avenue, Suite 300</street>
+          <city>Bethesda</city>
+          <region>MD</region>
+          <code>20814</code>
+          <country>USA</country>
+        </postal>
+        <phone>+1 (240) 292-6632</phone>
+        <email>rshpount@turbobridge.com</email>
+      </address>
+    </author>
     <date day="6" month="June" year="2019"/>
     <area>RAI</area>
     <workgroup>MMUSIC</workgroup>
