@@ -359,14 +359,6 @@ the answer according to normal offer/answer procedures <xref target="RFC3264"/>.
 If the answerer detects a possibility of an ICE mismatch,
 procedures described in (<xref target="sec-ice-mismatch"/>) are followed.
 </t>
-          <t>
-            <list style="hanging">
-              <t hangText="Note:"><xref target="draft-holmberg-ice-pac"/> provides guidance on finding working
-candidate pairs and thus preventing premature
-declaration of ICE failure in certain scenarios such as,
-if the peer has not provided any candidates, or if all provided
-candidates have failed or have been discarded.
-</t>
             </list>
           </t>
         </section>
@@ -436,6 +428,13 @@ Also as described in <xref target="RFC8445"/>, once the controlling agent has no
 a candidate pair for a data stream, the agent MUST NOT nominate another pair
 for that data stream during the lifetime of the ICE session (i.e. until
 ICE is restarted).
+</t>
+<t>
+  <xref target="draft-holmberg-ice-pac"/> provides a mechanism for
+  allowing the ICE process to run long enough in order to find working candidate pairs,
+  by waiting for potential peer-reflexive candidates, eventhough all current candidate pairs
+  associated with a check list have either failed or been discarded. It is OPTIONAL
+  for an ICE agent to support the mechanism.
 </t>
         </section>
       </section>
