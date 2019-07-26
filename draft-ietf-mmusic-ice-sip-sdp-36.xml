@@ -290,7 +290,7 @@ When an offerer generates the initial offer, in each "m=" section it MUST
 include SDP candidate attributes for each available candidate associated
 with the "m=" section. In addition, the offerer MUST include an SDP ice-ufrag
 attribute, an SDP ice-pwd attribute and an SDP ice-options attribute with
-an "ice2" attribute value the offer. If the offerer is a full ICE implementation,
+an "ice2" attribute value in the offer. If the offerer is a full ICE implementation,
 it SHOULD include an ice-pacing attribute in the offer (if not included, the
 default value will apply). A lite ICE implementation MUST NOT included the ice-pacing
 attribute in the offer (as it will not perform connectivity checks).
@@ -461,7 +461,7 @@ subsequent offer had never been made.
 </t>
         <section anchor="sec-send-subsequent-offer" title="Sending Subsequent Offer">
           <section title="Procedures for All Implementations">
-            <section anchor="sec-suboffer-restarts" title="ICE Restarts">
+            <section anchor="sec-suboffer-restarts" title="ICE Restart">
               <t>
 An agent MAY restart ICE processing for an existing data stream <xref target="RFC8445"/>.
 </t>
@@ -653,7 +653,7 @@ candidate in the remote-candidates attribute in the offer.
 </t>
           <section title="ICE Restart">
             <t>
-If the offerer in a subsequent offer requested an ICE restart
+If the offerer in a subsequent offer requested an ICE restart <xref target="sec-suboffer-restarts"/>
 for a data stream, and if the answerer accepts the offer, the
 answerer follows the procedures for generating an initial answer.
 </t>
