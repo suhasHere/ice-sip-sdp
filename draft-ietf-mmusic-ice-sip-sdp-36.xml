@@ -422,7 +422,7 @@ ICE is restarted).
 <t>
   <xref target="draft-ietf-ice-pac"/> provides a mechanism for
   allowing the ICE process to run long enough in order to find working candidate pairs,
-  by waiting for potential peer-reflexive candidates, eventhough no candidate pairs were
+  by waiting for potential peer-reflexive candidates, even though no candidate pairs were
   received from the peer or all current candidate pairs associated with a check list have
   either failed or been discarded. It is OPTIONAL for an ICE agent to support the mechanism.
 </t>
