@@ -394,27 +394,30 @@ dependent and are out of the scope of this specification.
         </section>
         <section title="Concluding ICE">
           <t>
-Once the state of each check list is Completed, and if the agent is
-the controlling agent, it nominates a candidate pair <xref target="RFC8445"/> and
-checks for each data stream whether the nominated pair matches the default
-candidate pair. If there are one or more data streams don&#8217;t match, and
-the peer did not indicate support for the 'ice2' ice-option,
-the controlling agent MUST generate a subsequent offer
-(<xref target="sec-send-subsequent-offer"/>), in which the connection address, port and
-transport protocol in the "c=" and "m=" lines associated
-with each data stream match the corresponding local information of the
-nominated pair for that data stream.
-</t>
+Once the agent has successfully nominated a pair <xref target="RFC8445"/>, the state of the
+check list associated with the pair is set to Completed. Once the state of each check list is
+set to either Completed or Failed, for each Completed check list the agent checks whether the
+nominated pair matches the default candidate pair. If there are one or more pairs that do not
+match, and the peer did not indicate support for the 'ice2' ice-option, the controlling agent
+MUST generate a subsequent offer, in which the connection address, port and transport protocol
+in the "c=" and "m=" lines associated with each data stream match the corresponding
+local information of the nominated pair for that data stream (<xref target="sec-send-subsequent-offer-after-nom"/>). 
+If the peer did indicate support for the 'ice2' ice-option, the controlling agent does not
+immediately need to generate an updated offer in order to align a connection address, port
+and protocol with a nominated pair. However, later in the session, whenever the controlling agent
+does sent a subsequent offer, it MUST do the alignment as described above.
+        </t>
+        <t>
+If there are one or more check lists with the state set to Failed, the controlling
+agent MUST generate a subsequent offer in order to remove the associated data streams by setting
+the port value of the data streams to zero (<xref target="sec-send-subsequent-offer-remove"/>),
+even if the peer did indicate support for the 'ice2' ice-option. If needed, such offer can also 
+be used to align the connection address, port and transport protocol, as described above.
+        </t>
           <t>
-However, if the support for 'ice2' ice-option is in use, the nominated
-candidate is noted and sent in the subsequent offer/answer exchange as
-the default candidate and no updated offer is needed to fix the default
-candidate.
-</t>
-          <t>
-Also as described in <xref target="RFC8445"/>, once the controlling agent has nominated
-a candidate pair for a data stream, the agent MUST NOT nominate another pair
-for that data stream during the lifetime of the ICE session (i.e. until
+As described in <xref target="RFC8445"/>, once the controlling agent has nominated
+a candidate pair for a check list, the agent MUST NOT nominate another pair
+for that check list during the lifetime of the ICE session (i.e. until
 ICE is restarted).
 </t>
 <t>
@@ -463,7 +466,7 @@ previous candidates for that data stream and MAY include a totally new set of
 candidates.
 </t>
             </section>
-            <section title="Removing a Data Stream">
+            <section title="Removing a Data Stream" anchor="sec-send-subsequent-offer-remove">
               <t>
 If an agent removes a data stream by setting its port to zero, it MUST NOT
 include any candidate attributes for that data stream and SHOULD NOT include
@@ -498,7 +501,7 @@ offers, there MUST be a set of candidate attributes in the offer matching
 this default destination.
 </t>
             </section>
-            <section title="After Nomination">
+            <section title="After Nomination" anchor="sec-send-subsequent-offer-after-nom">
               <t>
 Once a candidate pair has been nominated for a data stream, the connection address,
 port and transport protocol in each "c=" and "m=" line associated with that data
