@@ -359,14 +359,6 @@ the answer according to normal offer/answer procedures <xref target="RFC3264"/>.
 If the answerer detects a possibility of an ICE mismatch,
 procedures described in (<xref target="sec-ice-mismatch"/>) are followed.
 </t>
-          <t>
-            <list style="hanging">
-              <t hangText="Note:"><xref target="draft-holmberg-ice-pac"/> provides guidance on finding working
-candidate pairs and thus preventing premature
-declaration of ICE failure in certain scenarios such as,
-if the peer has not provided any candidates, or if all provided
-candidates have failed or have been discarded.
-</t>
             </list>
           </t>
         </section>
@@ -401,16 +393,6 @@ the offerer MUST terminate the usage of ICE for the entire session.
 The subsequent actions taken by the offerer are implementation
 dependent and are out of the scope of this specification.
 </t>
-          <t>
-            <list style="hanging">
-              <t hangText="Note:"><xref target="draft-holmberg-ice-pac"/> provides guidance on finding working
-candidate pairs and thus preventing premature
-declaration of ICE failure in certain scenarios such as,
-if the peer has not provided any candidates, or if all provided
-candidates have failed or have been discarded.
-</t>
-            </list>
-          </t>
         </section>
         <section title="Concluding ICE">
           <t>
@@ -436,6 +418,13 @@ Also as described in <xref target="RFC8445"/>, once the controlling agent has no
 a candidate pair for a data stream, the agent MUST NOT nominate another pair
 for that data stream during the lifetime of the ICE session (i.e. until
 ICE is restarted).
+</t>
+<t>
+  <xref target="draft-ietf-ice-pac"/> provides a mechanism for
+  allowing the ICE process to run long enough in order to find working candidate pairs,
+  by waiting for potential peer-reflexive candidates, even though no candidate pairs were
+  received from the peer or all current candidate pairs associated with a check list have
+  either failed or been discarded. It is OPTIONAL for an ICE agent to support the mechanism.
 </t>
         </section>
       </section>
@@ -2134,7 +2123,7 @@ Adam Roach, Peter Saint-Andre and the MMUSIC WG.
         <seriesInfo name="RFC" value="6679"/>
         <format type="TXT" octets="148560" target="ftp://ftp.isi.edu/in-notes/rfc6679.txt"/>
       </reference>
-      <reference anchor="draft-holmberg-ice-pac" target="http://www.ietf.org/internet-drafts/draft-holmberg-ice-pac-01.txt">
+      <reference anchor="draft-ietf-ice-pac" target="http://www.ietf.org/internet-drafts/draft-ietf-ice-pac-02.txt">
         <front>
           <title>Interactive Connectivity Establishment Patiently Awaiting Connectivity (ICE PAC)</title>
           <author initials="C." surname="Holmberg" fullname="Christer Holmberg">
@@ -2143,12 +2132,12 @@ Adam Roach, Peter Saint-Andre and the MMUSIC WG.
           <author initials="J." surname="Uberti" fullname="Justin Uberti">
             <organization/>
           </author>
-          <date year="2019" month="March"/>
+          <date year="2019" month="July"/>
           <abstract>
-            <t>During the process of creating a peer-to-peer connection, ICE implementations can encounter situations where they have no candidate pairs to check, and, as a result, conclude that ICE processing has failed. However, because additional candidate pairs can be discovered during ICE processing, declaring failure at this point may be premature. This document discusses when these situations can occur and proposes a way to avoid premature failure.  [STANDARDS-TRACK]</t>
+            <t>During the process of establishing peer-to-peer connectivity, ICE agents can encounter situations where they have no candidate pairs to check, and, as a result, conclude that ICE processing has failed. However, because additional candidate pairs can be discovered during ICE processing, declaring failure at this point may be premature. This document discusses when these situations can occur and proposes a way to avoid premature failure. [STANDARDS-TRACK]</t>
           </abstract>
         </front>
-        <seriesInfo name="Internet-Draft" value="draft-holmberg-ice-pac-01"/>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-ice-pac-02"/>
       </reference>
     </references>
     <section anchor="sec-example" title="Examples">
