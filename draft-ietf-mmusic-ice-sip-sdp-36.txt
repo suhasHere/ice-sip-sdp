@@ -6,14 +6,14 @@ MMUSIC                                                 M. Petit-Huguenin
 Internet-Draft                                        Impedance Mismatch
 Obsoletes: 5245 (if approved)                              S. Nandakumar
 Intended status: Standards Track                           Cisco Systems
-Expires: December 8, 2019                                     A. Keranen
+Expires: January 31, 2020                                     A. Keranen
                                                                 Ericsson
-                                                            June 6, 2019
+                                                           July 30, 2019
 
 
      Session Description Protocol (SDP) Offer/Answer procedures for
               Interactive Connectivity Establishment (ICE)
-                    draft-ietf-mmusic-ice-sip-sdp-36
+                    draft-ietf-mmusic-ice-sip-sdp-37
 
 Abstract
 
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 8, 2019.
+   This Internet-Draft will expire on January 31, 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019                [Page 1]
+Petit-Huguenin, et al.  Expires January 31, 2020                [Page 1]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    to this document.  Code Components extracted from this document must
@@ -94,7 +94,7 @@ Table of Contents
        3.3.3.  Receiving the Initial Answer  . . . . . . . . . . . .   9
        3.3.4.  Concluding ICE  . . . . . . . . . . . . . . . . . . .  10
      3.4.  Subsequent Offer/Answer Exchanges . . . . . . . . . . . .  10
-       3.4.1.  Sending Subsequent Offer  . . . . . . . . . . . . . .  11
+       3.4.1.  Sending Subsequent Offer  . . . . . . . . . . . . . .  10
        3.4.2.  Sending Subsequent Answer . . . . . . . . . . . . . .  13
        3.4.3.  Receiving Answer for a Subsequent Offer . . . . . . .  15
    4.  Grammar . . . . . . . . . . . . . . . . . . . . . . . . . . .  16
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019                [Page 2]
+Petit-Huguenin, et al.  Expires January 31, 2020                [Page 2]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
      6.1.  Latency Guidelines  . . . . . . . . . . . . . . . . . . .  22
@@ -165,9 +165,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019                [Page 3]
+Petit-Huguenin, et al.  Expires January 31, 2020                [Page 3]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
 2.  Terminology
@@ -221,9 +221,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019                [Page 4]
+Petit-Huguenin, et al.  Expires January 31, 2020                [Page 4]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
 3.2.1.1.  Data Streams
@@ -277,9 +277,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019                [Page 5]
+Petit-Huguenin, et al.  Expires January 31, 2020                [Page 5]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    If the port value associated with an "m=" section is set to zero
@@ -333,9 +333,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019                [Page 6]
+Petit-Huguenin, et al.  Expires January 31, 2020                [Page 6]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
        behavior of the responding agent in such a situation is
@@ -389,9 +389,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019                [Page 7]
+Petit-Huguenin, et al.  Expires January 31, 2020                [Page 7]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    v=0
@@ -445,9 +445,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019                [Page 8]
+Petit-Huguenin, et al.  Expires January 31, 2020                [Page 8]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    In each "m=" line, the answerer MUST use the same transport protocol
@@ -477,12 +477,6 @@ Internet-Draft                ICE SDP Usage                    June 2019
    If the answerer detects a possibility of an ICE mismatch, procedures
    described in (Section 3.2.5) are followed.
 
-   Note:  [draft-holmberg-ice-pac] provides guidance on finding working
-      candidate pairs and thus preventing premature declaration of ICE
-      failure in certain scenarios such as, if the peer has not provided
-      any candidates, or if all provided candidates have failed or have
-      been discarded.
-
 3.3.3.  Receiving the Initial Answer
 
    When an offerer receives an initial answer that indicates that the
@@ -498,29 +492,23 @@ Internet-Draft                ICE SDP Usage                    June 2019
    On the other hand, if the answer indicates support for ICE but
    includes "a=ice-mismatch" in certain active data streams, then the
    offerer MUST terminate the usage of ICE procedures and [RFC3264]
-
-
-
-Petit-Huguenin, et al.  Expires December 8, 2019                [Page 9]
-
-Internet-Draft                ICE SDP Usage                    June 2019
-
-
    procedures MUST be used instead for only these data streams.  Also,
    ICE procedures MUST be used for data streams where an "a=ice-
    mismatch" attribute was not included.
 
    If the offerer detects an ICE mismatch for one or more data streams
    in the answer, as described in Section 3.2.5, the offerer MUST
+
+
+
+Petit-Huguenin, et al.  Expires January 31, 2020                [Page 9]
+
+Internet-Draft                ICE SDP Usage                    July 2019
+
+
    terminate the usage of ICE for the entire session.  The subsequent
    actions taken by the offerer are implementation dependent and are out
    of the scope of this specification.
-
-   Note:  [draft-holmberg-ice-pac] provides guidance on finding working
-      candidate pairs and thus preventing premature declaration of ICE
-      failure in certain scenarios such as, if the peer has not provided
-      any candidates, or if all provided candidates have failed or have
-      been discarded.
 
 3.3.4.  Concluding ICE
 
@@ -545,6 +533,13 @@ Internet-Draft                ICE SDP Usage                    June 2019
    nominate another pair for that data stream during the lifetime of the
    ICE session (i.e. until ICE is restarted).
 
+   [draft-ietf-ice-pac] provides a mechanism for allowing the ICE
+   process to run long enough in order to find working candidate pairs,
+   by waiting for potential peer-reflexive candidates, even though no
+   candidate pairs were received from the peer or all current candidate
+   pairs associated with a check list have either failed or been
+   discarded.  It is OPTIONAL for an ICE agent to support the mechanism.
+
 3.4.  Subsequent Offer/Answer Exchanges
 
    Either agent MAY generate a subsequent offer at any time allowed by
@@ -554,15 +549,18 @@ Internet-Draft                ICE SDP Usage                    June 2019
    Should a subsequent offer fail, ICE processing continues as if the
    subsequent offer had never been made.
 
-
-
-
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 10]
-
-Internet-Draft                ICE SDP Usage                    June 2019
-
-
 3.4.1.  Sending Subsequent Offer
+
+
+
+
+
+
+
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 10]
+
+Internet-Draft                ICE SDP Usage                    July 2019
+
 
 3.4.1.1.  Procedures for All Implementations
 
@@ -613,9 +611,11 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 11]
+
+
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 11]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
 3.4.1.2.1.  Before Nomination
@@ -669,9 +669,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 12]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 12]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    If ICE has completed for a data stream and if the agent is
@@ -725,9 +725,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 13]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 13]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    o  If none of the pairs are In-Progress, and at least one is Failed,
@@ -781,9 +781,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 14]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 14]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    However, the signaling protocol carrying the offer/answer exchanges
@@ -837,9 +837,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 15]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 15]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    o  If ICE state is running for a given data stream, the agent
@@ -893,9 +893,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 16]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 16]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    The syntax for the attributes follow Augmented BNF as defined in
@@ -949,9 +949,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 17]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 17]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
       as, how agents indicate support for such procedures, need to be
@@ -1005,9 +1005,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 18]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 18]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
       of its purpose).  If the candidate is a host candidate, <rel-addr>
@@ -1061,9 +1061,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 19]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 19]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
 4.3.  "ice-lite" and "ice-mismatch" Attributes
@@ -1117,9 +1117,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 20]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 20]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    upper limit allows for increased amounts of randomness to be added
@@ -1173,9 +1173,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 21]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 21]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    might be further extension specific negotiation needed between the
@@ -1229,9 +1229,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 22]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 22]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    perceived user latency.  Two latency figures are of particular
@@ -1285,9 +1285,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 23]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 23]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    the called party until candidates for each component of each data
@@ -1341,9 +1341,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 24]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 24]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    With ICE, this problem is resolved.  The connectivity checks which
@@ -1397,9 +1397,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 25]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 25]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
 7.  Relationship with ANAT
@@ -1453,9 +1453,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 26]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 26]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    sending media there.  If this target is a third-party host, the
@@ -1509,9 +1509,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 27]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 27]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    conditions, which often show up as a mismatch between the set of
@@ -1565,9 +1565,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 28]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 28]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    Contact Name:  IESG
@@ -1621,9 +1621,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 29]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 29]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    Contact Email:  iesg@ietf.org
@@ -1677,9 +1677,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 30]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 30]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    Mux Category:  TRANSPORT
@@ -1733,9 +1733,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 31]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 31]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
 9.1.8.  ice-pacing Attribute
@@ -1789,9 +1789,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 32]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 32]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
 10.  Acknowledgments
@@ -1845,9 +1845,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 33]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 33]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    [RFC3556]  Casner, S., "Session Description Protocol (SDP) Bandwidth
@@ -1901,19 +1901,19 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 34]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 34]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
 11.2.  Informative References
 
-   [draft-holmberg-ice-pac]
+   [draft-ietf-ice-pac]
               Holmberg, C. and J. Uberti, "Interactive Connectivity
               Establishment Patiently Awaiting Connectivity (ICE PAC)",
-              draft-holmberg-ice-pac-01 (work in progress), March 2019,
+              draft-ietf-ice-pac-02 (work in progress), July 2019,
               <http://www.ietf.org/internet-drafts/
-              draft-holmberg-ice-pac-01.txt>.
+              draft-ietf-ice-pac-02.txt>.
 
    [RFC3725]  Rosenberg, J., Peterson, J., Schulzrinne, H., and G.
               Camarillo, "Best Current Practices for Third Party Call
@@ -1957,9 +1957,9 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 35]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 35]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    [RFC6679]  Westerlund, M., Johansson, I., Perkins, C., O'Hanlon, P.,
@@ -2013,9 +2013,9 @@ Appendix A.  Examples
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 36]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 36]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    v=0
@@ -2069,9 +2069,9 @@ Appendix B.  The remote-candidates Attribute
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 37]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 37]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    Agent L               Network               Agent R
@@ -2125,9 +2125,9 @@ Appendix C.  Why Is the Conflict Resolution Mechanism Needed?
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 38]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 38]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
              A         Controller          B
@@ -2181,9 +2181,9 @@ Appendix D.  Why Send an Updated Offer?
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 39]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 39]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    performing off-path QoS reservations, NAT traversal components such
@@ -2237,9 +2237,9 @@ Authors' Addresses
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 40]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 40]
 
-Internet-Draft                ICE SDP Usage                    June 2019
+Internet-Draft                ICE SDP Usage                    July 2019
 
 
    Ari Keranen
@@ -2293,4 +2293,4 @@ Internet-Draft                ICE SDP Usage                    June 2019
 
 
 
-Petit-Huguenin, et al.  Expires December 8, 2019               [Page 41]
+Petit-Huguenin, et al.  Expires January 31, 2020               [Page 41]

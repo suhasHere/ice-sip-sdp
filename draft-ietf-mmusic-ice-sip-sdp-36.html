@@ -443,8 +443,8 @@
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Petit-Huguenin, M., Nandakumar, S., and A. Keranen" />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-mmusic-ice-sip-sdp-36" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-06-06" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-mmusic-ice-sip-sdp-37" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-07-30" />
   <meta name="dct.abstract" content="This document describes Session Description Protocol (SDP) Offer/Answer procedures for carrying out Interactive Connectivity Establishment (ICE) between the agents.  This document obsoletes RFC 5245.  " />
   <meta name="description" content="This document describes Session Description Protocol (SDP) Offer/Answer procedures for carrying out Interactive Connectivity Establishment (ICE) between the agents.  This document obsoletes RFC 5245.  " />
 
@@ -472,7 +472,7 @@
 <td class="right">Cisco Systems</td>
 </tr>
 <tr>
-<td class="left">Expires: December 8, 2019</td>
+<td class="left">Expires: January 31, 2020</td>
 <td class="right">A. Keranen</td>
 </tr>
 <tr>
@@ -481,7 +481,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">June 6, 2019</td>
+<td class="right">July 30, 2019</td>
 </tr>
 
     	
@@ -489,7 +489,7 @@
   </table>
 
   <p class="title">Session Description Protocol (SDP) Offer/Answer procedures for Interactive Connectivity Establishment (ICE)<br />
-  <span class="filename">draft-ietf-mmusic-ice-sip-sdp-36</span></p>
+  <span class="filename">draft-ietf-mmusic-ice-sip-sdp-37</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
 <p>This document describes Session Description Protocol (SDP) Offer/Answer procedures for carrying out Interactive Connectivity Establishment (ICE) between the agents.  </p>
@@ -498,7 +498,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on December 8, 2019.</p>
+<p>This Internet-Draft will expire on January 31, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -766,35 +766,18 @@ a=candidate:2 1 UDP 1694498815 192.0.2.3 45664 typ srflx raddr
 <p id="rfc.section.3.3.2.p.4">Once the answerer has sent the answer, it can start performing connectivity checks towards the peer candidates that were provided in the offer.  </p>
 <p id="rfc.section.3.3.2.p.5">If the offer does not indicate support of ICE, the answerer MUST NOT accept the usage of ICE. If the answerer still accepts the offer, the answerer MUST NOT include any ICE-related SDP attributes in the answer. Instead the answerer will generate the answer according to normal offer/answer procedures <a href="#RFC3264" class="xref">[RFC3264]</a>.  </p>
 <p id="rfc.section.3.3.2.p.6">If the answerer detects a possibility of an ICE mismatch, procedures described in (<a href="#sec-ice-mismatch" class="xref">Section 3.2.5</a>) are followed.  </p>
-<p></p>
-
-<dl>
-<dt>Note:</dt>
-<dd style="margin-left: 8">
-<a href="#draft-holmberg-ice-pac" class="xref">[draft-holmberg-ice-pac]</a> provides guidance on finding working candidate pairs and thus preventing premature declaration of ICE failure in certain scenarios such as, if the peer has not provided any candidates, or if all provided candidates have failed or have been discarded.  </dd>
-</dl>
-
-<p> </p>
 <h1 id="rfc.section.3.3.3">
 <a href="#rfc.section.3.3.3">3.3.3.</a> Receiving the Initial Answer</h1>
 <p id="rfc.section.3.3.3.p.1">When an offerer receives an initial answer that indicates that the answerer supports ICE, it can start performing connectivity checks towards the peer candidates that were provided in the answer.  </p>
 <p id="rfc.section.3.3.3.p.2">If the answer does not indicate that the answerer supports ICE, or if the answerer included "a=ice-mismatch" attributes for all the active data streams in the answer, the offerer MUST terminate the usage of ICE for the entire session and <a href="#RFC3264" class="xref">[RFC3264]</a> procedures MUST be followed instead.  </p>
 <p id="rfc.section.3.3.3.p.3">On the other hand, if the answer indicates support for ICE but includes "a=ice-mismatch" in certain active data streams, then the offerer MUST terminate the usage of ICE procedures and <a href="#RFC3264" class="xref">[RFC3264]</a> procedures MUST be used instead  for only these data streams. Also, ICE procedures MUST be used for data streams where an "a=ice-mismatch" attribute was not included.  </p>
 <p id="rfc.section.3.3.3.p.4">If the offerer detects an ICE mismatch for one or more data streams in the answer, as described in <a href="#sec-ice-mismatch" class="xref">Section 3.2.5</a>, the offerer MUST terminate the usage of ICE for the entire session.  The subsequent actions taken by the offerer are implementation dependent and are out of the scope of this specification.  </p>
-<p></p>
-
-<dl>
-<dt>Note:</dt>
-<dd style="margin-left: 8">
-<a href="#draft-holmberg-ice-pac" class="xref">[draft-holmberg-ice-pac]</a> provides guidance on finding working candidate pairs and thus preventing premature declaration of ICE failure in certain scenarios such as, if the peer has not provided any candidates, or if all provided candidates have failed or have been discarded.  </dd>
-</dl>
-
-<p> </p>
 <h1 id="rfc.section.3.3.4">
 <a href="#rfc.section.3.3.4">3.3.4.</a> Concluding ICE</h1>
 <p id="rfc.section.3.3.4.p.1">Once the state of each check list is Completed, and if the agent is the controlling agent, it nominates a candidate pair <a href="#RFC8445" class="xref">[RFC8445]</a> and checks for each data stream whether the nominated pair matches the default candidate pair. If there are one or more data streams don&#8217;t match, and the peer did not indicate support for the 'ice2' ice-option, the controlling agent MUST generate a subsequent offer (<a href="#sec-send-subsequent-offer" class="xref">Section 3.4.1</a>), in which the connection address, port and transport protocol in the "c=" and "m=" lines associated with each data stream match the corresponding local information of the nominated pair for that data stream.  </p>
 <p id="rfc.section.3.3.4.p.2">However, if the support for 'ice2' ice-option is in use, the nominated candidate is noted and sent in the subsequent offer/answer exchange as the default candidate and no updated offer is needed to fix the default candidate.  </p>
 <p id="rfc.section.3.3.4.p.3">Also as described in <a href="#RFC8445" class="xref">[RFC8445]</a>, once the controlling agent has nominated a candidate pair for a data stream, the agent MUST NOT nominate another pair for that data stream during the lifetime of the ICE session (i.e. until ICE is restarted).  </p>
+<p><a href="#draft-ietf-ice-pac" class="xref">[draft-ietf-ice-pac]</a> provides a mechanism for allowing the ICE process to run long enough in order to find working candidate pairs, by waiting for potential peer-reflexive candidates, even though no candidate pairs were received from the peer or all current candidate pairs associated with a check list have either failed or been discarded. It is OPTIONAL for an ICE agent to support the mechanism.  </p>
 <h1 id="rfc.section.3.4">
 <a href="#rfc.section.3.4">3.4.</a> Subsequent Offer/Answer Exchanges</h1>
 <p id="rfc.section.3.4.p.1">Either agent MAY generate a subsequent offer at any time allowed by <a href="#RFC3264" class="xref">[RFC3264]</a>. This section defines rules for construction of subsequent offers and answers.  </p>
@@ -1442,9 +1425,9 @@ a=ice-options:rtp+ecn
 <a href="#rfc.references.2">11.2.</a> Informative References</h1>
 <table><tbody>
 <tr>
-<td class="reference"><b id="draft-holmberg-ice-pac">[draft-holmberg-ice-pac]</b></td>
+<td class="reference"><b id="draft-ietf-ice-pac">[draft-ietf-ice-pac]</b></td>
 <td class="top">
-<a>Holmberg, C.</a> and <a>J. Uberti</a>, "<a href="https://tools.ietf.org/html/draft-holmberg-ice-pac-01">Interactive Connectivity Establishment Patiently Awaiting Connectivity (ICE PAC)</a>", Internet-Draft draft-holmberg-ice-pac-01, March 2019.</td>
+<a>Holmberg, C.</a> and <a>J. Uberti</a>, "<a href="https://tools.ietf.org/html/draft-ietf-ice-pac-02">Interactive Connectivity Establishment Patiently Awaiting Connectivity (ICE PAC)</a>", Internet-Draft draft-ietf-ice-pac-02, July 2019.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC3725">[RFC3725]</b></td>
