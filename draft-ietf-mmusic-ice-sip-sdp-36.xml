@@ -1012,7 +1012,8 @@ a=ice-ufrag:8hhY
       <section title="&quot;ice-pacing&quot; Attribute">
         <t>
 The "ice-pacing" is a session level attribute that indicates the desired connectivity
-check pacing, in milliseconds, for this agent (see section 14 of <xref target="RFC8445"/>).
+check pacing (Ta interval), in milliseconds, that the sender wishes to use. See section 14.2
+of <xref target="RFC8445"/> for more information regarding selecting a pacing value.
 The syntax is:
 </t>
         <figure>
@@ -1022,20 +1023,14 @@ pacing-value              = 1*10DIGIT
 ]]></artwork>
         </figure>
         <t>
-Following the procedures defined in <xref target="RFC8445"/>, a default value of 50ms
-is used for an agent when the ice-pacing attribute is omitted in the offer or
-the answer.
+If absent in an offer and answer the default value of the attribute is 50 ms,
+which is the recommended value specified in <xref target="RFC8445"/>.
 </t>
         <t>
-The same rule applies for ice-pacing attribute values lower than
-50ms. This mandates that, if an agent includes the ice-pacing attribute,
-its value MUST be greater than 50ms or else a value of 50ms
-is considered by default for that agent.
 </t>
         <t>
-Also the larger of the ice-pacing attribute values between the offer and
-the answer (determined either by the one provided in the ice-pacing attribute
-or by picking the default value) MUST be considered for a given ICE session.
+Once both agents have indicated the pacing value they with to use, both
+agents MUST use the larger of the indicated values.
 </t>
       </section>
       <section anchor="sec-ice-options" title="&quot;ice-options&quot; Attribute">
