@@ -1982,6 +1982,22 @@ Adam Roach, Peter Saint-Andre and the MMUSIC WG.
         </front>
         <seriesInfo name="RFC" value="6336"/>
       </reference>
+      <reference anchor="draft-ietf-ice-pac" target="http://www.ietf.org/internet-drafts/draft-ietf-ice-pac-02.txt">
+        <front>
+          <title>Interactive Connectivity Establishment Patiently Awaiting Connectivity (ICE PAC)</title>
+          <author initials="C." surname="Holmberg" fullname="Christer Holmberg">
+            <organization/>
+          </author>
+          <author initials="J." surname="Uberti" fullname="Justin Uberti">
+            <organization/>
+          </author>
+          <date year="2019" month="July"/>
+          <abstract>
+            <t>During the process of establishing peer-to-peer connectivity, ICE agents can encounter situations where they have no candidate pairs to check, and, as a result, conclude that ICE processing has failed. However, because additional candidate pairs can be discovered during ICE processing, declaring failure at this point may be premature. This document discusses when these situations can occur and proposes a way to avoid premature failure. [STANDARDS-TRACK]</t>
+          </abstract>
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-ice-pac-02"/>
+      </reference>
     </references>
     <references title="Informative References">
       <reference anchor="RFC3725" target="http://www.rfc-editor.org/info/rfc3725">
@@ -2139,22 +2155,6 @@ Adam Roach, Peter Saint-Andre and the MMUSIC WG.
         </front>
         <seriesInfo name="RFC" value="6679"/>
         <format type="TXT" octets="148560" target="ftp://ftp.isi.edu/in-notes/rfc6679.txt"/>
-      </reference>
-      <reference anchor="draft-ietf-ice-pac" target="http://www.ietf.org/internet-drafts/draft-ietf-ice-pac-02.txt">
-        <front>
-          <title>Interactive Connectivity Establishment Patiently Awaiting Connectivity (ICE PAC)</title>
-          <author initials="C." surname="Holmberg" fullname="Christer Holmberg">
-            <organization/>
-          </author>
-          <author initials="J." surname="Uberti" fullname="Justin Uberti">
-            <organization/>
-          </author>
-          <date year="2019" month="July"/>
-          <abstract>
-            <t>During the process of establishing peer-to-peer connectivity, ICE agents can encounter situations where they have no candidate pairs to check, and, as a result, conclude that ICE processing has failed. However, because additional candidate pairs can be discovered during ICE processing, declaring failure at this point may be premature. This document discusses when these situations can occur and proposes a way to avoid premature failure. [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="Internet-Draft" value="draft-ietf-ice-pac-02"/>
       </reference>
     </references>
     <section anchor="sec-example" title="Examples">
