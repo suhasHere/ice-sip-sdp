@@ -270,6 +270,7 @@ s=
 c=IN IP4 192.0.2.3
 t=0 0
 a=ice-options:ice2
+a=ice-pacing:50
 a=ice-pwd:asd88fgpdd777uzjYhagZg
 a=ice-ufrag:8hhY
 m=audio 45664 RTP/AVP 0
@@ -1051,11 +1052,16 @@ If absent in an offer and answer the default value of the attribute is 50 ms,
 which is the recommended value specified in <xref target="RFC8445"/>.
 </t>
         <t>
-</t>
-        <t>
 Once both agents have indicated the pacing value they with to use, both
 agents MUST use the larger of the indicated values.
 </t>
+        <figure>
+          <artwork><![CDATA[
+Example shows an ice-pacing SDP line with value '50':
+
+a=ice-pacing:50
+]]></artwork>
+        </figure>
       </section>
       <section anchor="sec-ice-options" title="&quot;ice-options&quot; Attribute">
         <t>
@@ -1080,9 +1086,9 @@ defined by the specification defining the extension (see <xref target="sec-iana-
 </t>
         <figure>
           <artwork><![CDATA[
-Example shows 'rtp+ecn' ice-option SDP line from [RFC6679]:
+Example shows an ice-option SDP line with 'ice2' and 'rtp+ecn' [RFC6679] values:
 
-a=ice-options:rtp+ecn
+a=ice-options:ice2,rtp+ecn
 ]]></artwork>
         </figure>
       </section>
@@ -2168,6 +2174,8 @@ o=jdoe 2890844526 2890842807 IN IP6 $L-PRIV-1.IP
 s=
 c=IN IP6 $NAT-PUB-1.IP
 t=0 0
+a=ice-options:ice2
+a=ice-pacing:50
 a=ice-pwd:asd88fgpdd777uzjYhagZg
 a=ice-ufrag:8hhY
 m=audio $NAT-PUB-1.PORT RTP/AVP 0
@@ -2189,6 +2197,8 @@ o=jdoe 2890844526 2890842807 IN IP6 fe80::6676:baff:fe9c:ee4a
 s=
 c=IN IP6 2001:DB8:8101:3a55:4858:a2a9:22ff:99b9
 t=0 0
+a=ice-options:ice2
+a=ice-pacing:50
 a=ice-pwd:asd88fgpdd777uzjYhagZg
 a=ice-ufrag:8hhY
 m=audio 45664 RTP/AVP 0
@@ -2210,6 +2220,8 @@ o=bob 2808844564 2808844564 IN IP4 $R-PUB-1.IP
 s=
 c=IN IP4 $R-PUB-1.IP
 t=0 0
+a=ice-options:ice2
+a=ice-pacing:50
 a=ice-pwd:YH75Fviy6338Vbrhrlp8Yh
 a=ice-ufrag:9uB6
 m=audio $R-PUB-1.PORT RTP/AVP 0
@@ -2229,6 +2241,8 @@ o=bob 2808844564 2808844564 IN IP4 192.0.2.1
 s=
 c=IN IP4 192.0.2.1
 t=0 0
+a=ice-options:ice2
+a=ice-pacing:50
 a=ice-pwd:YH75Fviy6338Vbrhrlp8Yh
 a=ice-ufrag:9uB6
 m=audio 3478 RTP/AVP 0
