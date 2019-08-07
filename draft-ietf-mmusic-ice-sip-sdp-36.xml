@@ -832,7 +832,7 @@ candidate-attribute   = "candidate" ":" foundation SP component-id SP
                              extension-att-value)
 
 foundation            = 1*32ice-char
-component-id          = 1*5DIGIT
+component-id          = 1*3DIGIT
 transport             = "UDP" / transport-extension
 transport-extension   = token              ; from RFC 3261
 priority              = 1*10DIGIT
