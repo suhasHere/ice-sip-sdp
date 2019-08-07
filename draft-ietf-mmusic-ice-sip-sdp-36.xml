@@ -102,7 +102,7 @@ set of candidates <xref target="RFC8445"/>, the candidate exchange with the peer
       </section>
       <section title="Generic Procedures">
         <section anchor="sec-encoding" title="Encoding">
-          <t><xref target="sec-grammar"/>  provides detailed rules for constructing various SDP
+          <t><xref target="sec-grammar"/> provides detailed rules for constructing various SDP
 attributes defined in this specification.
 </t>
           <section title="Data Streams">
@@ -148,7 +148,7 @@ extensions.
             <t>
 An agent compliant to this specification MUST include an SDP ice-options
 attribute with an "ice2" attribute value <xref target="RFC8445"/>. If an agent receives an SDP offer
-or answer that does not contain an SDP ice-options attribute with an "ice2" attribute value,
+or answer that indicates ICE support, but that does not contain an SDP ice-options attribute with an "ice2" attribute value,
 the agent can assume that the peer is compliant to <xref target="RFC5245"/>.
 </t>
           </section>
@@ -216,10 +216,10 @@ exceptions noted below:
           <t>
             <list style="numbers">
               <t>
-The presence of certain application layer gateways MAY modify
+The presence of certain application layer gateways might modify
 the transport address information as described in <xref target="sec-alg-sip"/>.
 The behavior of the responding agent in such a situation is
-implementation dependent. Informally, the responding agent MAY
+implementation dependent. Informally, the responding agent might
 consider the mismatched transport address information as a
 plausible new candidate learnt from the peer and continue its
 ICE processing with that transport address included.
@@ -233,7 +233,7 @@ instead for this data stream.
 </t>
               <t>
 The transport address from the peer for the default destination
-correspond to IPv4/IPv6 address values "0.0.0.0"/"::" and port value of "9".
+is set to IPv4/IPv6 address values "0.0.0.0"/"::" and port value of "9".
 This MUST NOT be considered as a ICE failure by the peer agent and
 the ICE processing MUST continue as usual.
 
@@ -297,7 +297,7 @@ attribute in the offer (as it will not perform connectivity checks).
 </t>
           <t>
 It is valid for an offer "m=" line to include no SDP candidate attributes
-and with default destination corresponding to the IP address values
+and with default destination set to the IP address values
 "0.0.0.0"/"::" and port value of "9". This implies that the offering agent
 is only going to use peer reflexive candidates or that additional candidates
 would be provided in subsequent signaling messages.
@@ -347,7 +347,7 @@ port value of "9".
 </t>
           <t>
 It is also valid for an answer "m=" line to include no SDP
-candidate attributes and with default destination corresponding
+candidate attributes and with default destination set
 to the IP address values "0.0.0.0"/"::" and port value of "9".
 This implies that the answering agent is only going to use peer
 reflexive candidates or that additional candidates would be
@@ -367,7 +367,7 @@ the answer according to normal offer/answer procedures <xref target="RFC3264"/>.
 </t>
           <t>
 If the answerer detects a possibility of an ICE mismatch,
-procedures described in (<xref target="sec-ice-mismatch"/>) are followed.
+procedures described in <xref target="sec-ice-mismatch"/> are followed.
 </t>
         </section>
         <section title="Receiving the Initial Answer">
@@ -405,8 +405,8 @@ dependent and are out of the scope of this specification.
         <section title="Concluding ICE">
           <t>
 Once the agent has successfully nominated a pair <xref target="RFC8445"/>, the state of the
-check list associated with the pair is set to Completed. Once the state of each check list is
-set to either Completed or Failed, for each Completed check list the agent checks whether the
+checklist associated with the pair is set to Completed. Once the state of each checklist is
+set to either Completed or Failed, for each Completed checklist the agent checks whether the
 nominated pair matches the default candidate pair. If there are one or more pairs that do not
 match, and the peer did not indicate support for the 'ice2' ice-option, the controlling agent
 MUST generate a subsequent offer, in which the connection address, port and transport protocol
@@ -418,23 +418,23 @@ and protocol with a nominated pair. However, later in the session, whenever the 
 does sent a subsequent offer, it MUST do the alignment as described above.
         </t>
         <t>
-If there are one or more check lists with the state set to Failed, the controlling
+If there are one or more checklists with the state set to Failed, the controlling
 agent MUST generate a subsequent offer in order to remove the associated data streams by setting
 the port value of the data streams to zero (<xref target="sec-send-subsequent-offer-remove"/>),
-even if the peer did indicate support for the 'ice2' ice-option. If needed, such offer can also 
-be used to align the connection address, port and transport protocol, as described above.
+even if the peer did indicate support for the 'ice2' ice-option. If needed, such offer
+is used to align the connection address, port and transport protocol, as described above.
         </t>
           <t>
 As described in <xref target="RFC8445"/>, once the controlling agent has nominated
-a candidate pair for a check list, the agent MUST NOT nominate another pair
-for that check list during the lifetime of the ICE session (i.e. until
+a candidate pair for a checklist, the agent MUST NOT nominate another pair
+for that checklist during the lifetime of the ICE session (i.e. until
 ICE is restarted).
 </t>
 <t>
   <xref target="draft-ietf-ice-pac"/> provides a mechanism for
   allowing the ICE process to run long enough in order to find working candidate pairs,
   by waiting for potential peer-reflexive candidates, even though no candidate pairs were
-  received from the peer or all current candidate pairs associated with a check list have
+  received from the peer or all current candidate pairs associated with a checklist have
   either failed or been discarded. It is OPTIONAL for an ICE agent to support the mechanism.
 </t>
         </section>
@@ -470,7 +470,7 @@ as ICE restart.
 </t>
               <t>
 An agent sets the rest of the ICE-related fields in the SDP for this data stream as it
-would in an initial offer of this data stream (see <xref target="sec-encoding"/>).
+would in an initial offer of this data stream (<xref target="sec-encoding"/>).
 Consequently, the set of candidates MAY include some, none, or all of the
 previous candidates for that data stream and MAY include a totally new set of
 candidates. The agent MAY modify the attribute values of the SDP ice-options and
@@ -490,7 +490,7 @@ any other ICE-related attributes defined in <xref target="sec-grammar"/> for tha
               <t>
 If an agent wishes to add a new data stream, it sets the fields in the SDP for
 this data stream as if this were an initial offer for that data stream
-(see <xref target="sec-encoding"/>). This will cause ICE processing to begin for this data stream.
+(<xref target="sec-encoding"/>). This will cause ICE processing to begin for this data stream.
 </t>
             </section>
           </section>
@@ -520,14 +520,14 @@ Once a candidate pair has been nominated for a data stream, the connection addre
 port and transport protocol in each "c=" and "m=" line associated with that data
 stream MUST match the data associated with the nominated pair for that
 data stream. In addition, the offerer only includes SDP candidates
-representing the local candidates of the nominated candidate pair. The
+(one per component) representing the local candidates of the nominated candidate pair. The
 offerer MUST NOT include any other SDP candidate attributes in the
 subsequent offer.
 </t>
               <t>
 In addition, if the agent is controlling, it MUST include the
-"a=remote-candidates" attribute for each data stream whose check list
-is in the completed state. The attribute contains the remote candidates
+"a=remote-candidates" attribute for each data stream whose checklist
+is in the Completed state. The attribute contains the remote candidates
 corresponding to the nominated pair in the valid list for each
 component of that data stream. It is needed to avoid a race condition
 whereby the controlling agent chooses its pairs, but the updated offer
@@ -539,17 +539,17 @@ for elaboration on this race condition.
           </section>
           <section title="Procedures for Lite Implementations">
             <t>
-If the ICE state is "running", a lite implementation MUST include all of
+If the ICE state is Running, a lite implementation MUST include all of
 its candidates for each component of each data stream in "a=candidate"
 attributes in any subsequent offer. The candidates are formed identically
 to the procedures for initial offers.
 </t>
             <t>
 A lite implementation MUST NOT add additional host candidates in a
-subsequent offer.  If an agent needs to offer additional candidates,
-it MUST restart ICE. Similarly, the username fragments and passwords
-MUST remain the same as used previously.  If an agent needs to change
-one of these, it MUST restart ICE for that data stream.
+subsequent offer, and MUST NOT modify the username fragments and
+passwords. If an agent needs to offer additional candidates, or 
+modify the username fragments and passwords, it MUST request an 
+ICE restart (<xref target="sec-suboffer-restarts"/>) for that data stream.
 </t>
             <t>
 If ICE has completed for a data stream and if the agent is controlled,
@@ -560,7 +560,7 @@ the valid list for each component of a data stream. Additionally, the agent
 MUST include a candidate attribute for each default destination.
 </t>
             <t>
-If ICE state is completed and if the agent is controlling (which only
+If the ICE state is Completed and if the agent is controlling (which only
 happens when both agents are lite), the agent MUST include the
 "a=remote-candidates" attribute for each data stream.  The attribute
 contains the remote candidates from the candidate pairs in the
@@ -611,7 +611,7 @@ in the valid list.  If a particular pair is not in the valid list,
 the check has "lost" the race.  Call such a pair a "losing pair".
 </t>
           <t>
-The agent finds all the pairs in the check list whose remote
+The agent finds all the pairs in the checklist whose remote
 candidates equal the remote candidate in the losing pair:
 </t>
           <t>
@@ -643,7 +643,7 @@ candidate in the remote-candidates attribute in the offer.
 </t>
           <section title="ICE Restart">
             <t>
-If the offerer in a subsequent offer requested an ICE restart <xref target="sec-suboffer-restarts"/>
+If the offerer in a subsequent offer requested an ICE restart (<xref target="sec-suboffer-restarts"/>)
 for a data stream, and if the answerer accepts the offer, the
 answerer follows the procedures for generating an initial answer.
 </t>
@@ -658,7 +658,7 @@ The answerer MAY modify the attribute values of the SDP ice-options and
 SDP ice-pacing attributes, and it MAY change its role using the SDP ice-lite attribute.
 The answerer MUST NOT modify the SDP ice-options, ice-pacing and ice-lite attributes in a
 subsequent answer unless the answer is sent for an offer that was used to request an ICE restart
-<xref target="sec-suboffer-restarts"/>. If any of the SDP attributes have been modified in
+(<xref target="sec-suboffer-restarts"/>). If any of the SDP attributes have been modified in
 a subsequent offer that is not used to request an ICE restart, the answerer MUST reject the
 offer.
           </section>
@@ -684,7 +684,7 @@ component in the "a=remote-candidates" attribute in the offer.
               </list>
             </t>
             <t>
-The state of ICE processing for that data stream is set to Completed.
+The state of the checklist associated with that data stream is set to Completed.
 </t>
             <t>
 Furthermore, if the agent believed it was controlling, but the offer contained
@@ -746,26 +746,26 @@ STUN transactions in progress for that data stream.
 </t>
                 <t>
 If the offer/answer exchange added a new data stream, the agent
-MUST create a new check list for it (and an empty Valid list to
+MUST create a new checklist for it (and an empty Valid list to
 start of course) which in turn triggers the candidate
 processing procedures <xref target="RFC8445"/>.
 
 </t>
                 <t>
-If ICE state is running for a given data stream, the agent
-recomputes the check list. If a pair on the new check list was
-also on the previous check list, its state is copied over.
-  Otherwise, its state is set to Frozen. If none of the check
-  lists are active (meaning that the pairs in each check
-  list are Frozen), appropriate  procedures in <xref target="RFC8445"/>
-  are performed to move candidate(s) to the Waiting state to
+If the checklist state associated with a data stream is Running, the agent
+recomputes the checklist. If a pair on the new checklist was
+also on the previous checklist, its candidate pair state is copied over.
+  Otherwise, its candidate pair state is set to Frozen. If none of the checklists
+  are active (meaning that the candidate pair states in each checklist
+  are Frozen), appropriate procedures in <xref target="RFC8445"/>
+  are performed to move candidate pair(s) to the Waiting state to
   further continue ICE processing.
 
 </t>
                 <t>
-If ICE state is completed and the SDP answer conforms to
-<xref target="sec-subsequent-answer"/>, the agent MUST remain in the ICE
-completed state.
+If the ICE state is Completed and the SDP answer conforms to
+<xref target="sec-subsequent-answer"/>, the agent MUST remain in the
+Completed ICE state.
 
 </t>
               </list>
@@ -782,20 +782,20 @@ The agent MUST remember the nominated pair in the Valid list for each
 component of the data stream, called the "previous selected pair", prior
 to the restart. The agent will continue to send media using this pair,
 as described in section 12 of <xref target="RFC8445"/>. Once these destinations are
-noted, the agent MUST flush the valid and check lists, and then recompute
-the check list and its states, thus triggering the candidate processing
+noted, the agent MUST flush the Valid lists and checklists, and then recompute
+the checklist and its states, thus triggering the candidate processing
 procedures <xref target="RFC8445"/></t>
             </section>
           </section>
           <section title="Procedures for Lite Implementations">
             <t>
-If ICE is restarting for a data stream, the agent MUST start a new
+If ICE is restarting for a data stream, the agent MUST create a new
 Valid list for that data stream. It MUST remember the nominated pair in the
 previous Valid list for each component of the data stream, called
 the "previous selected pairs", and continue to send media there as
-described in section 12 of <xref target="RFC8445"/>. The state of ICE processing
-for each data stream MUST change to Running, and the state of
-ICE processing MUST change to Running
+described in section 12 of <xref target="RFC8445"/>. The state of each
+checklist for each data stream MUST change to Running, and the ICE state
+MUST be set to Running.
 </t>
           </section>
         </section>
@@ -1047,7 +1047,7 @@ pacing-value              = 1*10DIGIT
 ]]></artwork>
         </figure>
         <t>
-If absent in an offer and answer the default value of the attribute is 50 ms,
+If absent in an offer or answer the default value of the attribute is 50 ms,
 which is the recommended value specified in <xref target="RFC8445"/>.
 </t>
         <t>
@@ -1076,7 +1076,7 @@ is supported by the agent and it is willing to use it, if the peer agent also in
 the same extension in the answer. There might be further extension specific
 negotiation needed between the agents that determine how the extension gets used
 in a given session. The details of the negotiation procedures, if present, MUST be
-defined by the specification defining the extension (see <xref target="sec-iana-ice-options"/>).
+defined by the specification defining the extension (<xref target="sec-iana-ice-options"/>).
 </t>
         <figure>
           <artwork><![CDATA[
@@ -1098,7 +1098,7 @@ peer supports ICE by the presence of "a=candidate" attributes for each media ses
     </section>
     <section title="SIP Considerations">
       <t>
-Note that ICE is not intended for NAT traversal for SIP, which is assumed to be
+Note that ICE is not intended for NAT traversal for SIP signalling, which is assumed to be
 provided via another mechanism <xref target="RFC5626"/>.
 </t>
       <t>
@@ -1106,16 +1106,7 @@ When ICE is used with SIP, forking may result in a single offer generating a
 multiplicity of answers. In that case, ICE proceeds completely in parallel and
 independently for each answer, treating the combination of its offer and
 each answer as an independent offer/answer exchange, with its own set of local
-candidates, pairs, check lists, states, and so on.
-</t>
-      <t>
-Once ICE processing has reached the Completed state for all peers for media
-streams using those candidates, the agent SHOULD wait an additional three seconds,
-and then it MAY cease responding to checks or generating triggered checks on that
-candidate. It MAY free the candidate at that time.
-Freeing of server reflexive candidates is never explicit; it happens by lack of
-a keepalive. The three-second delay handles cases when aggressive nomination
-is used, and the selected pairs can quickly change after ICE has completed.
+candidates, pairs, checklists, states, and so on.
 </t>
       <section anchor="sec-latency" title="Latency Guidelines">
         <t>
@@ -1152,15 +1143,12 @@ Provisional Response Acknowledgment (PRACK)
 mechanism <xref target="RFC3262"/> or through an ICE specific optimization, wherein,
 the agent retransmits the provisional response with the exponential backoff
 timers described in <xref target="RFC3262"/>. Such retransmissions MUST cease on receipt
-of a STUN Binding request with transport address matching candidate address
+of a STUN Binding request with the transport address matching the candidate address
 for one of the data streams signaled in that SDP or on transmission of the answer
 in a 2xx response. If no Binding request is received prior to the last retransmit,
 the agent does not consider the session terminated. For the ICE lite peers, the agent MUST cease retransmitting the 18x after
 sending it four times since there will be no Binding request sent and
-the number four is arbitrarily chosen to limit the number of 18x retransmits
-(poor man&#8217;s version of <xref target="RFC3262"/> basically). (ICE will actually work even
-if the peer never receives the 18x; however, experience has shown that sending
-it is important for middleboxes and firewall traversal).
+the number four is arbitrarily chosen to limit the number of 18x retransmits.
 </t>
           <t>
 Once the answer has been sent, the agent SHOULD begin its connectivity checks.
@@ -1276,6 +1264,11 @@ It is RECOMMENDED that ICE be used in realizing the dual-stack use-cases in agen
 </t>
     </section>
     <section title="Security Considerations">
+      <t>
+        The generic ICE security considierations are defined in <xref target="RFC8445"/>, and the 
+        generic SDP offer/answer security considerations are defined in <xref target="RFC3264"/>. The 
+        security considerations also apply to implementations of this document.
+      </t>
       <section title="Attacks on the Offer/Answer Exchanges">
         <t>
 An attacker that can modify or disrupt the offer/answer exchanges themselves can readily launch a variety of attacks with ICE.
