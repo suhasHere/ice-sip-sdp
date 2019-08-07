@@ -661,6 +661,7 @@ subsequent answer unless the answer is sent for an offer that was used to reques
 <xref target="sec-suboffer-restarts"/>. If any of the SDP attributes have been modified in
 a subsequent offer that is not used to request an ICE restart, the answerer MUST reject the
 offer.
+</t>
           </section>
           <section title="Lite Implementation specific procedures">
             <t>
@@ -1267,13 +1268,6 @@ In particular, if an agent receives a mid-dialog re-INVITE that contains no offe
 Furthermore, that list of candidates SHOULD include the ones currently being used for media.
 </t>
       </section>
-    </section>
-    <section title="Relationship with ANAT">
-      <t><xref target="RFC4091"/>, the Alternative Network Address Types (ANAT) Semantics for the SDP grouping framework, and <xref target="RFC4092"/>, its usage with SIP, define a mechanism for indicating that an agent can support both IPv4 and IPv6 for a data stream, and it does so by including two "m=" lines, one for v4 and one for v6.  This is similar to ICE, which allows for an agent to indicate multiple transport addresses using the candidate attribute.  However, ANAT relies on static selection to pick between choices, rather than a dynamic connectivity check used by ICE.
-</t>
-      <t>
-It is RECOMMENDED that ICE be used in realizing the dual-stack use-cases in agents that support ICE.
-</t>
     </section>
     <section title="Security Considerations">
       <section title="Attacks on the Offer/Answer Exchanges">
@@ -2024,38 +2018,6 @@ Adam Roach, Peter Saint-Andre and the MMUSIC WG.
         </front>
         <seriesInfo name="RFC" value="3960"/>
         <seriesInfo name="DOI" value="10.17487/RFC3960"/>
-      </reference>
-      <reference anchor="RFC4091" target="http://www.rfc-editor.org/info/rfc4091">
-        <front>
-          <title>The Alternative Network Address Types (ANAT) Semantics for the Session Description Protocol (SDP) Grouping Framework</title>
-          <author initials="G." surname="Camarillo" fullname="G. Camarillo">
-            <organization/>
-          </author>
-          <author initials="J." surname="Rosenberg" fullname="J. Rosenberg">
-            <organization/>
-          </author>
-          <date year="2005" month="June"/>
-          <abstract>
-            <t>This document defines the Alternative Network Address Types (ANAT) semantics for the Session Description Protocol (SDP) grouping framework.  The ANAT semantics allow alternative types of network addresses to establish a particular media stream. [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="4091"/>
-      </reference>
-      <reference anchor="RFC4092" target="http://www.rfc-editor.org/info/rfc4092">
-        <front>
-          <title>Usage of the Session Description Protocol (SDP) Alternative Network Address Types (ANAT) Semantics in the Session Initiation Protocol (SIP)</title>
-          <author initials="G." surname="Camarillo" fullname="G. Camarillo">
-            <organization/>
-          </author>
-          <author initials="J." surname="Rosenberg" fullname="J. Rosenberg">
-            <organization/>
-          </author>
-          <date year="2005" month="June"/>
-          <abstract>
-            <t>This document describes how to use the Alternative Network Address Types (ANAT) semantics of the Session Description Protocol (SDP) grouping framework in SIP.  In particular, we define the sdp-anat SIP option-tag.  This SIP option-tag ensures that SDP session descriptions that use ANAT are only handled by SIP entities with ANAT support.  To justify the need for such a SIP option-tag, we describe what could possibly happen if an ANAT-unaware SIP entity tried to handle media lines grouped with ANAT.[STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="4092"/>
       </reference>
       <reference anchor="RFC5245" target="http://www.rfc-editor.org/info/rfc5245">
         <front>
