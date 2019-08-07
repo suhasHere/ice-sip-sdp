@@ -60,12 +60,16 @@ gives the additional details needed to use ICE with SDP offer/answer.
 This document obsoletes RFC 5245.
 </t>
     </section>
-    <section title="Terminology">
+    <section title="Conventions">
       <t>
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
-"SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in
-this document are to be interpreted as described in <xref target="RFC8174"/>.
-</t>
+        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+        NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+        "MAY", and "OPTIONAL" in this document are to be interpreted as
+        described in BCP 14 <xref target="RFC2119"></xref> <xref target="RFC8174"></xref>
+        when, and only when, they appear in all capitals, as shown here.
+      </t>
+    </section>
+    <section title="Terminology">
       <t>
 Readers should be familiar with the terminology defined in <xref target="RFC3264"/>,
 in <xref target="RFC8445"/> and the following:
