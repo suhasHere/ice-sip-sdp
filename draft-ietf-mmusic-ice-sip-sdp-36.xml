@@ -1731,6 +1731,7 @@ Adam Roach, Peter Saint-Andre and the MMUSIC WG.
         <t>Definition and usage of SDP 'ice-pacing' attribute.</t>
         <t>Explicit text that an ICE agent must not generate candidates with FQDNs, and 
         must discard such candidates if received from the peer agent.</t>
+        <t>Relax requirement to include SDP 'rtcp' attribute.</t>
         <t>Generic clarifications of SDP offer/answer procedures.</t>
       </list>
     </t>
