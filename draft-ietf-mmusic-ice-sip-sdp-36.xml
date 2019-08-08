@@ -1263,47 +1263,7 @@ Furthermore, that list of candidates SHOULD include the ones currently being use
 It is RECOMMENDED that ICE be used in realizing the dual-stack use-cases in agents that support ICE.
 </t>
     </section>
-    <section title="Security Considerations">
-      <t>
-        The generic ICE security considierations are defined in <xref target="RFC8445"/>, and the 
-        generic SDP offer/answer security considerations are defined in <xref target="RFC3264"/>. The 
-        security considerations also apply to implementations of this document.
-      </t>
-      <section title="Attacks on the Offer/Answer Exchanges">
-        <t>
-An attacker that can modify or disrupt the offer/answer exchanges themselves can readily launch a variety of attacks with ICE.
-They could direct media to a target of a DoS attack, they could insert themselves into the data stream, and so on.
-These are similar to the general security considerations for offer/answer exchanges, and the security considerations in <xref target="RFC3264"/> apply.
-These require techniques for message integrity and encryption for offers and answers, which are satisfied by the TLS mechanism <xref target="RFC3261"/> when SIP is used.
-As such, the usage of TLS with ICE is RECOMMENDED.
-</t>
-      </section>
-      <section title="Insider Attacks">
-        <t>
-In addition to attacks where the attacker is a third party trying to insert fake offers, answers, or STUN messages, there are several attacks possible with ICE when the attacker is an authenticated and valid participant in the ICE exchange.
-</t>
-        <section anchor="sec-voice-hammer" title="The Voice Hammer Attack">
-          <t>
-The voice hammer attack is an amplification attack.
-In this attack, the attacker initiates sessions to other agents, and maliciously includes
-the connection address and port of a DoS target as the destination for media traffic
-signaled in the SDP. This causes substantial amplification; a single offer/answer exchange
-can create a continuing flood of media packets, possibly at high rates (consider video sources).
-This attack is not specific to ICE, but ICE can help provide remediation.
-</t>
-          <t>
-Specifically, if ICE is used, the agent receiving the malicious SDP will first perform connectivity checks to the target of media before sending media there.
-If this target is a third-party host, the checks will not succeed, and media is never sent.
-</t>
-          <t>
-Unfortunately, ICE doesn&#8217;t help if it&#8217;s not used, in which case an attacker could simply send the offer without the ICE parameters.
-However, in environments where the set of clients is known, and is limited to ones that support ICE, the server can reject any offers or answers that don&#8217;t indicate ICE support.
-</t>
-          <t>
-SIP User Agents (UA) <xref target="RFC3261"/> that are not willing to receive non-ICE answers MUST include an "ice" Option Tag <xref target="RFC5768"/> in the SIP Require Header Field in their offer. UAs that reject non-ICE offers will generally use a 421 response code, together with an Option Tag "ice" in the Require Header Field in the response.
-</t>
-        </section>
-        <section anchor="sec-alg-sip" title="Interactions with Application Layer Gateways and SIP">
+    <section anchor="sec-alg-sip" title="Interactions with Application Layer Gateways and SIP">
           <t>
 Application Layer Gateways (ALGs) are functions present in a Network Address Translation (NAT) device that inspect the contents of packets and modify them, in order to facilitate NAT traversal for application protocols.
 Session Border Controllers (SBCs) are close cousins of ALGs, but are less transparent since they actually exist as application-layer SIP intermediaries.
@@ -1350,7 +1310,43 @@ If, however, the SBC passes the ICE attributes without modification, yet modifie
 It is outside of the scope of ICE for it to act as a tool for "working around" SBCs.
 If one is present, ICE will not be used and the SBC techniques take precedence.
 </t>
-        </section>
+    </section>
+    <section title="Security Considerations">
+      <t>
+        The generic ICE security considierations are defined in <xref target="RFC8445"/>, and the 
+        generic SDP offer/answer security considerations are defined in <xref target="RFC3264"/>. The 
+        security considerations also apply to implementations of this document.
+      </t>
+      <section title="Attacks on the Offer/Answer Exchanges">
+        <t>
+An attacker that can modify or disrupt the offer/answer exchanges themselves can readily launch a variety of attacks with ICE.
+They could direct media to a target of a DoS attack, they could insert themselves into the data stream, and so on.
+These are similar to the general security considerations for offer/answer exchanges, and the security considerations in <xref target="RFC3264"/> apply.
+These require techniques for message integrity and encryption for offers and answers, which are satisfied by the TLS mechanism <xref target="RFC3261"/> when SIP is used.
+As such, the usage of TLS with ICE is RECOMMENDED.
+</t>
+      </section>
+      <section anchor="sec-voice-hammer" title="The Voice Hammer Attack">
+          <t>
+The voice hammer attack is an amplification attack, and can be triggered even if the attacker
+is an authenticated and valid participant in a session.
+In this attack, the attacker initiates sessions to other agents, and maliciously includes
+the connection address and port of a DoS target as the destination for media traffic
+signaled in the SDP. This causes substantial amplification; a single offer/answer exchange
+can create a continuing flood of media packets, possibly at high rates (consider video sources).
+The use of ICE can help to prevent against this attack.
+</t>
+          <t>
+Specifically, if ICE is used, the agent receiving the malicious SDP will first perform connectivity checks to the target of media before sending media there.
+If this target is a third-party host, the checks will not succeed, and media is never sent.
+</t>
+          <t>
+Unfortunately, ICE doesn&#8217;t help if it&#8217;s not used, in which case an attacker could simply send the offer without the ICE parameters.
+However, in environments where the set of clients is known, and is limited to ones that support ICE, the server can reject any offers or answers that don&#8217;t indicate ICE support.
+</t>
+          <t>
+SIP User Agents (UA) <xref target="RFC3261"/> that are not willing to receive non-ICE answers MUST include an "ice" Option Tag <xref target="RFC5768"/> in the SIP Require Header Field in their offer. UAs that reject non-ICE offers will generally use a 421 response code, together with an Option Tag "ice" in the Require Header Field in the response.
+</t>
       </section>
     </section>
     <section anchor="iana" title="IANA Considerations">
