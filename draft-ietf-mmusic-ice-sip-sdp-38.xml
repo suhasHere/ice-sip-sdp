@@ -1450,7 +1450,8 @@ If one is present, ICE will not be used and the SBC techniques take precedence.
           Require Header Field in the response.
         </t>
       </section>
-    </section>    <section anchor="iana" title="IANA Considerations">
+    </section>
+    <section anchor="iana" title="IANA Considerations">
       <section title="SDP Attributes">
         <t>
 The original ICE specification defined seven new SDP attributes per the procedures of
