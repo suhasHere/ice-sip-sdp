@@ -859,8 +859,7 @@ candidate-attribute   = "candidate" ":" foundation SP component-id SP
                         SP cand-type
                         [SP rel-addr]
                         [SP rel-port]
-                        *(SP extension-att-name SP
-                             extension-att-value)
+                        *(SP cand-extension)
 
 foundation            = 1*32ice-char
 component-id          = 1*3DIGIT
@@ -871,6 +870,7 @@ cand-type             = "typ" SP candidate-types
 candidate-types       = "host" / "srflx" / "prflx" / "relay" / token
 rel-addr              = "raddr" SP connection-address
 rel-port              = "rport" SP port
+cand-extension        = extension-att-name SP extension-att-value
 extension-att-name    = token
 extension-att-value   = *VCHAR
 ice-char              = ALPHA / DIGIT / "+" / "/"
@@ -1701,6 +1701,41 @@ Reference(s) to the specification defining the ICE option and the related extens
           </list>
         </t>
       </section>
+      <section anchor="sec-iana-cand-ext" title="Candidate Attribute Extension Subregistry Establishment">
+        <t>
+          This section creates a new sub-registry, "Candidate Attribute Extensions", under the sdp-parameters
+          registry: http://www.iana.org/assignments/sdp-parameters.
+        </t>
+        <t>
+          The purpose of the sub-registry is to register SDP candidate attribute extensions.
+        </t>
+        <t>
+          When a candidate extension is registered in the sub-registry, it needs to meet the "Specification Required"
+          policies defined in <xref target="RFC8126"/>.
+        </t>
+        <t>
+          Candidate attribute extensions MUST follow the 'cand-extension' syntax. The attribute extension
+          name MUST follow the 'extension-att-name' syntax, and the attribute extension value MUST follow the
+          'extension-att-value' syntax.
+        </t>
+        <t>
+          A registration request MUST include the following information:
+        </t>
+        <t>
+          <list style="symbols">
+            <t>
+              The name of the attribute extension.
+            </t>
+            <t>
+              A short description of the attribute extension.
+            </t>
+            <t>
+              A reference to a specification that describes the semantics, usage and possible
+              values of the attribute extension.
+            </t>
+          </list>
+        </t>
+      </section>
     </section>
     <section title="Acknowledgments">
       <t>
@@ -1741,279 +1776,21 @@ Adam Roach, Peter Saint-Andre, Roman Danyliw, Alissa Cooper, Benjamin Kaduk, Mir
   </middle>
   <back>
     <references title="Normative References">
-      <reference  anchor='RFC2119' target='https://www.rfc-editor.org/info/rfc2119'>
-        <front>
-        <title>Key words for use in RFCs to Indicate Requirement Levels</title>
-        <author initials='S.' surname='Bradner' fullname='S. Bradner'><organization /></author>
-        <date year='1997' month='March' />
-        <abstract><t>In many standards track documents several words are used to signify the requirements in the specification.  These words are often capitalized. This document defines these words as they should be interpreted in IETF documents.  This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t></abstract>
-      </front>
-      <seriesInfo name='BCP' value='14'/>
-      <seriesInfo name='RFC' value='2119'/>
-      <seriesInfo name='DOI' value='10.17487/RFC2119'/>
-      </reference>
-      <reference anchor="RFC8445" target="http://www.rfc-editor.org/info/rfc8445">
-        <front>
-          <title>Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal</title>
-          <author initials="A." surname="Keranen" fullname="A. Keranen">
-            <organization/>
-          </author>
-          <author initials="C." surname="Holmberg" fullname="C. Holmberg">
-            <organization/>
-          </author>
-          <author initials="J." surname="Rosenberg" fullname="J. Rosenberg">
-            <organization/>
-          </author>
-          <date year="2018" month="July"/>
-          <abstract>
-            <t>This document describes a protocol for Network Address Translator (NAT) traversal for UDP-based communication.  This protocol is called Interactive Connectivity Establishment (ICE).  ICE makes use of the Session Traversal Utilities for NAT (STUN) protocol and its extension, Traversal Using Relay NAT (TURN).</t>
-            <t>This document obsoletes RFC 5245.</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="8445"/>
-        <seriesInfo name="DOI" value="10.17487/RFC8445"/>
-      </reference>
-      <reference anchor="RFC8174" target="http://www.rfc-editor.org/info/rfc8174">
-        <front>
-          <title>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</title>
-          <author initials="B." surname="Leiba" fullname="B. Leiba">
-            <organization/>
-          </author>
-          <date year="2017" month="May"/>
-          <abstract>
-            <t>RFC 2119 specifies common key words that may be used in protocol  specifications.  This document aims to reduce the ambiguity by clarifying that only UPPERCASE usage of the key words have the  defined special meanings.</t>
-          </abstract>
-        </front>
-        <seriesInfo name="BCP" value="14"/>
-        <seriesInfo name="RFC" value="8174"/>
-        <seriesInfo name="DOI" value="10.17487/RFC8174"/>
-      </reference>
-      <reference anchor="RFC3261" target="http://www.rfc-editor.org/info/rfc3261">
-        <front>
-          <title>SIP: Session Initiation Protocol</title>
-          <author initials="J." surname="Rosenberg" fullname="J. Rosenberg">
-            <organization/>
-          </author>
-          <author initials="H." surname="Schulzrinne" fullname="H. Schulzrinne">
-            <organization/>
-          </author>
-          <author initials="G." surname="Camarillo" fullname="G. Camarillo">
-            <organization/>
-          </author>
-          <author initials="A." surname="Johnston" fullname="A. Johnston">
-            <organization/>
-          </author>
-          <author initials="J." surname="Peterson" fullname="J. Peterson">
-            <organization/>
-          </author>
-          <author initials="R." surname="Sparks" fullname="R. Sparks">
-            <organization/>
-          </author>
-          <author initials="M." surname="Handley" fullname="M. Handley">
-            <organization/>
-          </author>
-          <author initials="E." surname="Schooler" fullname="E. Schooler">
-            <organization/>
-          </author>
-          <date year="2002" month="June"/>
-          <abstract>
-            <t>This document describes Session Initiation Protocol (SIP), an application-layer control (signaling) protocol for creating, modifying, and terminating sessions with one or more participants.  These sessions include Internet telephone calls, multimedia distribution, and multimedia conferences.  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="3261"/>
-        <seriesInfo name="DOI" value="10.17487/RFC3261"/>
-      </reference>
-      <reference anchor="RFC3262" target="http://www.rfc-editor.org/info/rfc3262">
-        <front>
-          <title>Reliability of Provisional Responses in Session Initiation Protocol (SIP)</title>
-          <author initials="J." surname="Rosenberg" fullname="J. Rosenberg">
-            <organization/>
-          </author>
-          <author initials="H." surname="Schulzrinne" fullname="H. Schulzrinne">
-            <organization/>
-          </author>
-          <date year="2002" month="June"/>
-          <abstract>
-            <t>This document specifies an extension to the Session Initiation Protocol (SIP) providing reliable provisional response messages.  This extension uses the option tag 100rel and defines the Provisional Response ACKnowledgement (PRACK) method.  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="3262"/>
-        <seriesInfo name="DOI" value="10.17487/RFC3262"/>
-      </reference>
-      <reference anchor="RFC3264" target="http://www.rfc-editor.org/info/rfc3264">
-        <front>
-          <title>An Offer/Answer Model with Session Description Protocol (SDP)</title>
-          <author initials="J." surname="Rosenberg" fullname="J. Rosenberg">
-            <organization/>
-          </author>
-          <author initials="H." surname="Schulzrinne" fullname="H. Schulzrinne">
-            <organization/>
-          </author>
-          <date year="2002" month="June"/>
-          <abstract>
-            <t>This document defines a mechanism by which two entities can make use of the Session Description Protocol (SDP) to arrive at a common view of a multimedia session between them.  In the model, one participant offers the other a description of the desired session from their perspective, and the other participant answers with the desired session from their perspective.  This offer/answer model is most useful in unicast sessions where information from both participants is needed for the complete view of the session.  The offer/answer model is used by protocols like the Session Initiation Protocol (SIP).  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="3264"/>
-        <seriesInfo name="DOI" value="10.17487/RFC3264"/>
-      </reference>
-      <reference anchor="RFC3312" target="http://www.rfc-editor.org/info/rfc3312">
-        <front>
-          <title>Integration of Resource Management and Session Initiation Protocol (SIP)</title>
-          <author initials="G." surname="Camarillo" fullname="G. Camarillo" role="editor">
-            <organization/>
-          </author>
-          <author initials="W." surname="Marshall" fullname="W. Marshall" role="editor">
-            <organization/>
-          </author>
-          <author initials="J." surname="Rosenberg" fullname="J. Rosenberg">
-            <organization/>
-          </author>
-          <date year="2002" month="October"/>
-        </front>
-        <seriesInfo name="RFC" value="3312"/>
-        <seriesInfo name="DOI" value="10.17487/RFC3312"/>
-      </reference>
-      <reference anchor="RFC3556" target="http://www.rfc-editor.org/info/rfc3556">
-        <front>
-          <title>Session Description Protocol (SDP) Bandwidth Modifiers for RTP Control Protocol (RTCP) Bandwidth</title>
-          <author initials="S." surname="Casner" fullname="S. Casner">
-            <organization/>
-          </author>
-          <date year="2003" month="July"/>
-          <abstract>
-            <t>This document defines an extension to the Session Description Protocol (SDP) to specify two additional modifiers for the bandwidth attribute. These modifiers may be used to specify the bandwidth allowed for RTP Control Protocol (RTCP) packets in a Real-time Transport Protocol (RTP) session.  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="3556"/>
-        <seriesInfo name="DOI" value="10.17487/RFC3556"/>
-      </reference>
-      <reference anchor="RFC3605" target="http://www.rfc-editor.org/info/rfc3605">
-        <front>
-          <title>Real Time Control Protocol (RTCP) attribute in Session Description Protocol (SDP)</title>
-          <author initials="C." surname="Huitema" fullname="C. Huitema">
-            <organization/>
-          </author>
-          <date year="2003" month="October"/>
-          <abstract>
-            <t>The Session Description Protocol (SDP) is used to describe the parameters of media streams used in multimedia sessions.  When a session requires multiple ports, SDP assumes that these ports have consecutive numbers.  However, when the session crosses a network address translation device that also uses port mapping, the ordering of ports can be destroyed by the translation.  To handle this, we propose an extension attribute to SDP.</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="3605"/>
-        <seriesInfo name="DOI" value="10.17487/RFC3605"/>
-      </reference>
-      <reference anchor="RFC4032" target="http://www.rfc-editor.org/info/rfc4032">
-        <front>
-          <title>Update to the Session Initiation Protocol (SIP) Preconditions Framework</title>
-          <author initials="G." surname="Camarillo" fullname="G. Camarillo">
-            <organization/>
-          </author>
-          <author initials="P." surname="Kyzivat" fullname="P. Kyzivat">
-            <organization/>
-          </author>
-          <date year="2005" month="March"/>
-          <abstract>
-            <t>This document updates RFC 3312, which defines the framework for preconditions in SIP.  We provide guidelines for authors of new precondition types and describe how to use SIP preconditions in situations that involve session mobility.  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="4032"/>
-        <seriesInfo name="DOI" value="10.17487/RFC4032"/>
-      </reference>
-      <reference anchor="RFC4566" target="http://www.rfc-editor.org/info/rfc4566">
-        <front>
-          <title>SDP: Session Description Protocol</title>
-          <author initials="M." surname="Handley" fullname="M. Handley">
-            <organization/>
-          </author>
-          <author initials="V." surname="Jacobson" fullname="V. Jacobson">
-            <organization/>
-          </author>
-          <author initials="C." surname="Perkins" fullname="C. Perkins">
-            <organization/>
-          </author>
-          <date year="2006" month="July"/>
-          <abstract>
-            <t>This memo defines the Session Description Protocol (SDP).  SDP is intended for describing multimedia sessions for the purposes of session announcement, session invitation, and other forms of multimedia session initiation.  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="4566"/>
-        <seriesInfo name="DOI" value="10.17487/RFC4566"/>
-      </reference>
-      <reference anchor="RFC8126" target="http://www.rfc-editor.org/info/rfc8126">
-        <front>
-          <title>Guidelines for Writing an IANA Considerations Section in RFCs</title>
-          <author initials="M." surname="Cotton" fullname="M. Cotton">
-            <organization/>
-          </author>
-          <author initials="B." surname="Leiba" fullname="B. Leiba">
-            <organization/>
-          </author>
-          <author initials="T." surname="Narten" fullname="T. Narten">
-            <organization/>
-          </author>
-          <date year="2017" month="June"/>
-          <abstract>
-            <t>Many protocols make use of points of extensibility that use constants to identify various protocol parameters.  To ensure that the values in these fields do not have conflicting uses and to promote interoperability, their allocations are often coordinated by a central record keeper.  For IETF protocols, that role is filled by the Internet Assigned Numbers Authority (IANA).</t>
-            <t>To make assignments in a given registry prudently, guidance describing the conditions under which new values should be assigned, as well as when and how modifications to existing values can be made, is needed.  This document defines a framework for the documentation of these guidelines by specification authors, in order to assure that the provided guidance for the IANA Considerations is clear and addresses the various issues that are likely in the operation of a registry.</t>
-            <t>This is the third edition of this document; it obsoletes RFC 5226.</t>
-          </abstract>
-        </front>
-        <seriesInfo name="BCP" value="26"/>
-        <seriesInfo name="RFC" value="8126"/>
-        <seriesInfo name="DOI" value="10.17487/RFC8126"/>
-      </reference>
-      <reference anchor="RFC5234" target="http://www.rfc-editor.org/info/rfc5234">
-        <front>
-          <title>Augmented BNF for Syntax Specifications: ABNF</title>
-          <author initials="D." surname="Crocker" fullname="D. Crocker" role="editor">
-            <organization/>
-          </author>
-          <author initials="P." surname="Overell" fullname="P. Overell">
-            <organization/>
-          </author>
-          <date year="2008" month="January"/>
-          <abstract>
-            <t>Internet technical specifications often need to define a formal syntax.  Over the years, a modified version of Backus-Naur Form (BNF), called Augmented BNF (ABNF), has been popular among many Internet specifications.  The current specification documents ABNF. It balances compactness and simplicity with reasonable representational power.  The differences between standard BNF and ABNF involve naming rules, repetition, alternatives, order-independence, and value ranges.  This specification also supplies additional rule definitions and encoding for a core lexical analyzer of the type common to several Internet specifications.  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="STD" value="68"/>
-        <seriesInfo name="RFC" value="5234"/>
-        <seriesInfo name="DOI" value="10.17487/RFC5234"/>
-      </reference>
-      <reference anchor="RFC5768" target="http://www.rfc-editor.org/info/rfc5768">
-        <front>
-          <title>Indicating Support for Interactive Connectivity Establishment (ICE) in the Session Initiation Protocol (SIP)</title>
-          <author initials="J." surname="Rosenberg" fullname="J. Rosenberg">
-            <organization/>
-          </author>
-          <date year="2010" month="April"/>
-          <abstract>
-            <t>This specification defines a media feature tag and an option tag for use with the Session Initiation Protocol (SIP).  The media feature tag allows a User Agent (UA) to communicate to its registrar that it supports ICE.  The option tag allows a UA to require support for ICE in order for a call to proceed.  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="5768"/>
-        <seriesInfo name="DOI" value="10.17487/RFC5768"/>
-      </reference>
-      <reference anchor="RFC6336" target="http://www.rfc-editor.org/info/rfc6336">
-        <front>
-          <title>IANA Registry for Interactive Connectivity Establishment (ICE) Options</title>
-          <author initials="M." surname="Westerlund" fullname="M. Westerlund">
-            <organization/>
-          </author>
-          <author initials="C." surname="Perkins" fullname="C. Perkins">
-            <organization/>
-          </author>
-          <date year="2010" month="April"/>
-          <abstract>
-            <t>It has been identified that "Interactive Connectivity Establishment
-   (ICE): A Protocol for Network Address Translator (NAT) Traversal for
-   Offer/Answer Protocols" (RFC 5245) is missing a registry for ICE
-   options.  This document defines this missing IANA registry and
-   updates RFC 5245.</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="6336"/>
-      </reference>
+      <?rfc include="reference.RFC.2119"?>
+      <?rfc include="reference.RFC.3261"?>
+      <?rfc include="reference.RFC.3262"?>
+      <?rfc include="reference.RFC.3264"?>
+      <?rfc include="reference.RFC.3312"?>
+      <?rfc include="reference.RFC.3556"?>
+      <?rfc include="reference.RFC.3605"?>
+      <?rfc include="reference.RFC.3960"?>
+      <?rfc include="reference.RFC.4032"?>
+      <?rfc include="reference.RFC.4566"?>
+      <?rfc include="reference.RFC.5234"?>
+      <?rfc include="reference.RFC.5768"?>
+      <?rfc include="reference.RFC.6336"?>
+      <?rfc include="reference.RFC.8174"?>
+      <?rfc include="reference.RFC.8445"?>
       <reference anchor="draft-ietf-ice-pac" target="http://www.ietf.org/internet-drafts/draft-ietf-ice-pac-02.txt">
         <front>
           <title>Interactive Connectivity Establishment Patiently Awaiting Connectivity (ICE PAC)</title>
@@ -2032,130 +1809,13 @@ Adam Roach, Peter Saint-Andre, Roman Danyliw, Alissa Cooper, Benjamin Kaduk, Mir
       </reference>
     </references>
     <references title="Informative References">
-      <reference anchor="RFC3725" target="http://www.rfc-editor.org/info/rfc3725">
-        <front>
-          <title>Best Current Practices for Third Party Call Control (3pcc) in the Session Initiation Protocol (SIP)</title>
-          <author initials="J." surname="Rosenberg" fullname="J. Rosenberg">
-            <organization/>
-          </author>
-          <author initials="J." surname="Peterson" fullname="J. Peterson">
-            <organization/>
-          </author>
-          <author initials="H." surname="Schulzrinne" fullname="H. Schulzrinne">
-            <organization/>
-          </author>
-          <author initials="G." surname="Camarillo" fullname="G. Camarillo">
-            <organization/>
-          </author>
-          <date year="2004" month="April"/>
-          <abstract>
-            <t>Third party call control refers to the ability of one entity to create a call in which communication is actually between other parties.  Third party call control is possible using the mechanisms specified within the Session Initiation Protocol (SIP).  However, there are several possible approaches, each with different benefits and drawbacks.  This document discusses best current practices for the usage of SIP for third party call control.  This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
-          </abstract>
-        </front>
-        <seriesInfo name="BCP" value="85"/>
-        <seriesInfo name="RFC" value="3725"/>
-        <seriesInfo name="DOI" value="10.17487/RFC3725"/>
-      </reference>
-      <reference anchor="RFC3960" target="http://www.rfc-editor.org/info/rfc3960">
-        <front>
-          <title>Early Media and Ringing Tone Generation in the Session Initiation Protocol (SIP)</title>
-          <author initials="G." surname="Camarillo" fullname="G. Camarillo">
-            <organization/>
-          </author>
-          <author initials="H." surname="Schulzrinne" fullname="H. Schulzrinne">
-            <organization/>
-          </author>
-          <date year="2004" month="December"/>
-          <abstract>
-            <t>This document describes how to manage early media in the Session Initiation Protocol (SIP) using two models: the gateway model and the application server model.  It also describes the inputs one needs to consider in defining local policies for ringing tone generation.  This memo provides information for the Internet community.</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="3960"/>
-        <seriesInfo name="DOI" value="10.17487/RFC3960"/>
-      </reference>
-      <reference anchor="RFC5245" target="http://www.rfc-editor.org/info/rfc5245">
-        <front>
-          <title>Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal for Offer/Answer Protocols</title>
-          <author initials="J." surname="Rosenberg" fullname="J. Rosenberg">
-            <organization/>
-          </author>
-          <date year="2010" month="April"/>
-          <abstract>
-            <t>This document describes a protocol for Network Address Translator (NAT) traversal for UDP-based multimedia sessions established with the offer/answer model.  This protocol is called Interactive Connectivity Establishment (ICE).  ICE makes use of the Session Traversal Utilities for NAT (STUN) protocol and its extension, Traversal Using Relay NAT (TURN).  ICE can be used by any protocol utilizing the offer/answer model, such as the Session Initiation Protocol (SIP).  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="5245"/>
-        <seriesInfo name="DOI" value="10.17487/RFC5245"/>
-      </reference>
-      <reference anchor="RFC5626" target="http://www.rfc-editor.org/info/rfc5626">
-        <front>
-          <title>Managing Client-Initiated Connections in the Session Initiation Protocol (SIP)</title>
-          <author initials="C." surname="Jennings" fullname="C. Jennings" role="editor">
-            <organization/>
-          </author>
-          <author initials="R." surname="Mahy" fullname="R. Mahy" role="editor">
-            <organization/>
-          </author>
-          <author initials="F." surname="Audet" fullname="F. Audet" role="editor">
-            <organization/>
-          </author>
-          <date year="2009" month="October"/>
-          <abstract>
-            <t>The Session Initiation Protocol (SIP) allows proxy servers to initiate TCP connections or to send asynchronous UDP datagrams to User Agents in order to deliver requests.  However, in a large number of real deployments, many practical considerations, such as the existence of firewalls and Network Address Translators (NATs) or the use of TLS with server-provided certificates, prevent servers from connecting to User Agents in this way.  This specification defines behaviors for User Agents, registrars, and proxy servers that allow requests to be delivered on existing connections established by the User Agent.  It also defines keep-alive behaviors needed to keep NAT bindings open and specifies the usage of multiple connections from the User Agent to its registrar.  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="5626"/>
-        <seriesInfo name="DOI" value="10.17487/RFC5626"/>
-      </reference>
-      <reference anchor="RFC5898" target="http://www.rfc-editor.org/info/rfc5898">
-        <front>
-          <title>Connectivity Preconditions for Session Description Protocol (SDP) Media Streams</title>
-          <author initials="F." surname="Andreasen" fullname="F. Andreasen">
-            <organization/>
-          </author>
-          <author initials="G." surname="Camarillo" fullname="G. Camarillo">
-            <organization/>
-          </author>
-          <author initials="D." surname="Oran" fullname="D. Oran">
-            <organization/>
-          </author>
-          <author initials="D." surname="Wing" fullname="D. Wing">
-            <organization/>
-          </author>
-          <date year="2010" month="July"/>
-          <abstract>
-            <t>This document defines a new connectivity precondition for the Session Description Protocol (SDP) precondition framework.  A connectivity precondition can be used to delay session establishment or modification until media stream connectivity has been successfully verified.  The method of verification may vary depending on the type of transport used for the media.  For unreliable datagram transports such as UDP, verification involves probing the stream with data or control packets.  For reliable connection-oriented transports such as TCP, verification can be achieved simply by successful connection establishment or by probing the connection with data or control packets, depending on the situation.  [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="5898"/>
-        <seriesInfo name="DOI" value="10.17487/RFC5898"/>
-      </reference>
-      <reference anchor="RFC6679" target="http://www.rfc-editor.org/info/rfc6679">
-        <front>
-          <title>Explicit Congestion Notification (ECN) for RTP over UDP</title>
-          <author initials="M." surname="Westerlund" fullname="M. Westerlund">
-            <organization/>
-          </author>
-          <author initials="I." surname="Johansson" fullname="I. Johansson">
-            <organization/>
-          </author>
-          <author initials="C." surname="Perkins" fullname="C. Perkins">
-            <organization/>
-          </author>
-          <author initials="P." surname="O'Hanlon" fullname="P. O'Hanlon">
-            <organization/>
-          </author>
-          <author initials="K." surname="Carlberg" fullname="K. Carlberg">
-            <organization/>
-          </author>
-          <date year="2012" month="August"/>
-          <abstract>
-            <t>This memo specifies how Explicit Congestion Notification (ECN) can be used with the Real-time Transport Protocol (RTP) running over UDP, using the RTP Control Protocol (RTCP) as a feedback mechanism.  It defines a new RTCP Extended Report (XR) block for periodic ECN feedback, a new RTCP transport feedback message for timely reporting of congestion events, and a Session Traversal Utilities for NAT (STUN) extension used in the optional initialisation method using Interactive Connectivity Establishment (ICE).  Signalling and procedures for negotiation of capabilities and initialisation methods are also defined. [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="6679"/>
-        <format type="TXT" octets="148560" target="ftp://ftp.isi.edu/in-notes/rfc6679.txt"/>
-      </reference>
+      <?rfc include="reference.RFC.3725"?>
+      <?rfc include="reference.RFC.3960"?>
+      <?rfc include="reference.RFC.5245"?>
+      <?rfc include="reference.RFC.5626"?>
+      <?rfc include="reference.RFC.5898"?>
+      <?rfc include="reference.RFC.6679"?>
+      <?rfc include="reference.RFC.8126"?>
     </references>
     <section anchor="sec-example" title="Examples">
       <t>
