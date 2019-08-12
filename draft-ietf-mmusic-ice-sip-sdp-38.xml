@@ -946,7 +946,7 @@ If the candidate is a host candidate, &lt;rel-addr&gt; and &lt;rel-port&gt; MUST
             <t hangText="">
 In some cases, e.g., for privacy reasons, an agent may not want to reveal the related
 address and port. In this case the address MUST be set to "0.0.0.0" (for IPv4 candidates)
-or "::" (for IPv6 candidates) and the port to zero.
+or "::" (for IPv6 candidates) and the port to '9'.
 </t>
           </list>
         </t>
@@ -1401,14 +1401,14 @@ If one is present, ICE will not be used and the SBC techniques take precedence.
     <section title="Security Considerations">
       <t>
         The generic ICE security considierations are defined in <xref target="RFC8445"/>, and the 
-        generic SDP offer/answer security considerations are defined in <xref target="RFC3264"/>. The 
+        generic SDP offer/answer security considerations are defined in <xref target="RFC3264"/>. These 
         security considerations also apply to implementations of this document.
       </t>
       <section title="IP Address Privacy">
         <t>
           In some cases, e.g., for privacy reasons, an agent may not want to reveal the related
           address and port. In this case the address MUST be set to "0.0.0.0" (for IPv4 candidates)
-          or "::" (for IPv6 candidates) and the port to zero.
+          or "::" (for IPv6 candidates) and the port to '9'.
         </t>
       </section>
       <section title="Attacks on the Offer/Answer Exchanges">
