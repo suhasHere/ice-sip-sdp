@@ -214,7 +214,7 @@ might be omitted.
 <t>
 NOTE: <xref target="RFC5245"/> required that an agent always includes the 
 SDP rtcp attribute, even if the RTCP port value was one higher than the
-RTP port value. This specification alligns the rtcp attribute procedures
+RTP port value. This specification aligns the rtcp attribute procedures
 with <xref target="RFC3605"/>.
 </t>
 <t>
@@ -240,7 +240,7 @@ check Binding requests on those candidates.
           <t>
             An ICE agent is considered to indicate support of ICE by including
             at least the SDP ice-pwd and ice-ufrag attributes in an offer or answer.
-            An ICE agent compliant will this specification also includes an 
+            An ICE agent compliant with this specification MUST also include an 
             SDP ice-options attribute with an "ice2" attribute value.
           </t>
           <t>
