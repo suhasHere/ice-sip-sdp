@@ -964,6 +964,13 @@ or "::" (for IPv6 candidates) and the port to '9'.
           </list>
         </t>
         <t>
+NOTE: The reason port '9' is used is due to port '0' having a special meaning in SDP offer/answer
+exchanges. As described in <xref target="RFC3264"/>, port '0' is used to disable or reject a data stream described
+by an "m=" section. On the other hand, setting a port of an "m="section to '9', and the "c=" line address to "0.0.0.0"/"::", informs 
+the ICE agent that ICE mismatch is not triggered, regardless of what ICE candidates are specified for the "m=" section. This
+can be used as a placeholder, until the real address and port is provided.
+        </t>
+        <t>
 The candidate attribute can itself be extended. The grammar allows for new name/value pairs
 to be added at the end of the attribute. Such extensions MUST be made through IETF Review or
 IESG Approval <xref target="RFC8126"/> and the assignments MUST contain the specific extension and a
@@ -1095,10 +1102,13 @@ If absent in an offer or answer the default value of the attribute is 50 ms,
 which is the recommended value specified in <xref target="RFC8445"/>.
 </t>
         <t>
+As defined in <xref target="RFC8445"/> regardless of the Ta value chosen for each agent, the combination of
+all transactions from all agents (if a given implementation runs several concurrent agents) must not be
+sent more often than once every 5 ms.
 </t>
         <t>
-Once both agents have indicated the pacing value they with to use, both
-agents MUST use the larger of the indicated values.
+As defined in <xref target="RFC8445"/>, once both agents have indicated the pacing value
+they want to use, both agents will use the larger of the indicated values.
 </t>
 <figure>
           <artwork><![CDATA[
@@ -1140,7 +1150,7 @@ a=ice-options:ice2 rtp+ecn
     <section anchor="sec-keepalive" title="Keepalives">
       <t>
 All the ICE agents MUST follow the procedures defined in section 11 of <xref target="RFC8445"/>
-for sending keepalives. The keepalives MUST be sent regardless of whether the
+for sending keepalives. As defined in <xref target="RFC8445"/>, the keepalives will be sent sent regardless of whether the
 data stream is currently inactive, sendonly, recvonly, or sendrecv, and regardless
 of the presence or value of the bandwidth attribute. An agent can determine that its
 peer supports ICE by the presence of "a=candidate" attributes for each media session.
@@ -1401,6 +1411,11 @@ Furthermore, that list of candidates SHOULD include the ones currently being use
           Specifically, if ICE is used, the agent receiving the malicious SDP will first perform connectivity
           checks to the target of media before sending media there. If this target is a third-party host, the
           checks will not succeed, and media is never sent.
+        </t>
+        <t>
+          The ICE extension defined in <xref target="RFC7675"/> can be used to further protect against voice
+          hammer attacks.
+        </t>
         </t>
         <t>
           Unfortunately, ICE doesn&#8217;t help if it&#8217;s not used, in which case an attacker could simply
@@ -1807,6 +1822,10 @@ Adam Roach, Peter Saint-Andre, Roman Danyliw, Alissa Cooper, Benjamin Kaduk, Mir
         <t>Explicit text that an ICE agent must not generate candidates with FQDNs, and 
         must discard such candidates if received from the peer agent.</t>
         <t>Relax requirement to include SDP 'rtcp' attribute.</t>
+        <t>ICE mismatch is now optional, and an agent has an option to not trigger
+        mismatch and instead treat the default candidate as an additional candidate.</t>
+        <t>FQDNs and "0.0..0.0"/"::" IP addresses with port "9" default candidates
+        do not trigger ICE mismatch.</t>
         <t>Generic clarifications of SDP offer/answer procedures.</t>
       </list>
     </t>
@@ -1852,6 +1871,7 @@ Adam Roach, Peter Saint-Andre, Roman Danyliw, Alissa Cooper, Benjamin Kaduk, Mir
       <?rfc include="reference.RFC.5626"?>
       <?rfc include="reference.RFC.5898"?>
       <?rfc include="reference.RFC.6679"?>
+      <?rfc include="reference.RFC.7675"?>
       <?rfc include="reference.RFC.8126"?>
     </references>
     <section anchor="sec-example" title="Examples">
