@@ -202,15 +202,22 @@ SDP extension specifying otherwise is used.
           <t>
 If an agent utilizes both RTP and RTCP, and separate ports
 are used for RTP and RTCP, the agent MUST include SDP candidate
-attributes for both the RTP and RTCP components and SDP rtcp
-attribute SHOULD be included in the "m=" section, as
-described in <xref target="RFC3605"/></t>
-          <t>
-In the cases where the port number for the RTCP is one higher than the
-RTP port and the RTCP component address is the same as the address of the
-RTP component, the SDP rtcp attribute MAY be omitted.
+attributes for both the RTP and RTCP components.
 </t>
           <t>
+The agent includes an SDP rtcp attribute following the procedures
+in <xref target="RFC3605"/>. Hence, in the cases where the RTCP
+port value is one higher than the RTP port value and the RTCP component
+address the same as the address of the RTP component, the SDP rtcp attribute
+might be omitted.
+</t>
+<t>
+NOTE: <xref target="RFC5245"/> required that an agent always includes the 
+SDP rtcp attribute, even if the RTCP port value was one higher than the
+RTP port value. This specification aligns the rtcp attribute procedures
+with <xref target="RFC3605"/>.
+</t>
+<t>
 If the agent does not utilize RTCP, it indicates that by including b=RS:0
 and b=RR:0 SDP attributes, as described in <xref target="RFC3556"/>.
 </t>
@@ -230,6 +237,12 @@ check Binding requests on those candidates.
 </t>
         </section>
         <section anchor="sec-ice-mismatch" title="Verifying ICE Support Procedures">
+          <t>
+            An ICE agent is considered to indicate support of ICE by including
+            at least the SDP ice-pwd and ice-ufrag attributes in an offer or answer.
+            An ICE agent compliant with this specification MUST also include an 
+            SDP ice-options attribute with an "ice2" attribute value.
+          </t>
           <t>
 The agents will proceed with the ICE procedures defined in <xref target="RFC8445"/> and
 this specification if, for each data stream in the SDP it received, the
@@ -392,7 +405,7 @@ connectivity checks towards the peer candidates that were provided
 in the offer.
 </t>
           <t>
-If the offer does not indicate support of ICE, the answerer
+If the offer does not indicate support of ICE <xref target="sec-ice-mismatch"/>, the answerer
 MUST NOT accept the usage of ICE. If the answerer still accepts
 the offer, the answerer MUST NOT include any ICE-related SDP
 attributes in the answer. Instead the answerer will generate
@@ -1103,7 +1116,7 @@ Its grammar is:
         <figure>
           <artwork><![CDATA[
 ice-options           = "ice-options:" ice-option-tag
-                          0*(SP ice-option-tag)
+                          *(SP ice-option-tag)
 ice-option-tag        = 1*ice-char
 ]]></artwork>
         </figure>
@@ -1119,7 +1132,7 @@ defined by the specification defining the extension (<xref target="sec-iana-ice-
           <artwork><![CDATA[
 Example shows an ice-options SDP line with 'ice2' and 'rtp+ecn' [RFC6679] values:
 
-a=ice-options:ice2,rtp+ecn
+a=ice-options:ice2 rtp+ecn
 ]]></artwork>
         </figure>
       </section>
