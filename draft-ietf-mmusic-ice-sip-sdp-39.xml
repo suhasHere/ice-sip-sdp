@@ -323,8 +323,10 @@ b=RS:0
 b=RR:0
 a=rtpmap:0 PCMU/8000
 a=candidate:1 1 UDP 2130706431 203.0.113.141 8998 typ host
-a=candidate:2 1 UDP 1694498815 192.0.2.3 45664 typ srflx raddr
- 203.0.113.141 rport 8998
+a=candidate:2 1 UDP 2122194687 2001:DB8:8101:3a55:4858:a2a9:22ff:99b9
+ 8998 typ host
+a=candidate:3 1 UDP 1694498815 192.0.2.3 45664 typ srflx raddr 
+ 03.0.113.141 rport 8998
 ]]></artwork>
           </figure>
         </section>
@@ -1896,9 +1898,11 @@ m=audio 45664 RTP/AVP 0
 b=RS:0
 b=RR:0
 a=rtpmap:0 PCMU/8000
-a=candidate:1 1 UDP 2130706431 fe80::6676:baff:fe9c:ee4a 8998 typ host
-a=candidate:2 1 UDP 1694498815 2001:db8:8101:3a55:4858:a2a9:22ff:99b9
-45664 typ srflx raddr fe80::6676:baff:fe9c:ee4a rport 8998
+a=candidate:1 1 UDP 2130706431 203.0.113.141 8998 typ host
+a=candidate:2 1 UDP 2122194687 2001:DB8:8101:3a55:4858:a2a9:22ff:99b9
+ 8998 typ host
+a=candidate:3 1 UDP 1694498815 192.0.2.3 45664 typ srflx raddr 
+ 03.0.113.141 rport 8998
 ]]></artwork>
       </figure>
       <t>
